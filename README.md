@@ -1,6 +1,6 @@
 # Crafting Platforms Book - Companion Code
 
-This repository contains the companion code for the book **Crafting Platforms: The Noble Art of Building Platforms** by Ezequiel Foncubierta. You can find the book at [https://www.craftingplatforms.com](https://www.craftingplatforms.com).
+This repository contains the companion code for the book **Crafting Platforms** by Ezequiel Foncubierta. You can find the book at [https://www.craftingplatforms.com](https://www.craftingplatforms.com).
 
 > [!NOTE]
 > The book is currently under development, with chapters being added progressively. The code examples will also evolve as the book is completed.
@@ -11,13 +11,13 @@ This repository contains the companion code for the book **Crafting Platforms: T
 ## Table of Contents
 
 - Chapter 1: Introduction
-- Chapter 2: Platform as a Product
-- Chapter 3: Infrastructure as Code
-- Chapter 4: Segmentation Strategies
-- Chapter 5: Self-Service
-- Chapter 6: CI/CD
-- Chapter 7: Observability
-- Chapter 8: Security
+- Chapter 2: Internal Developer Platform
+- Chapter 3: Segmentation
+- Chapter 4: Infrastructure
+- Chapter 5: CI/CD
+- Chapter 6: Observability
+- Chapter 7: Security and Compliance
+- Chapter 8: Developer Experience (DevEx)
 
 ## License
 
