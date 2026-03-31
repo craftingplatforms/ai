@@ -25,8 +25,8 @@ The book teaches **humans** the principles and patterns for building platforms. 
 
 ### Get the Book
 
-- **Early Access** (digital): [craftingplatforms.com](https://www.craftingplatforms.com) — $29 for chapters as they're published
-- **Leanpub** (when complete): Full book in PDF and ePub
+- **Website**: [craftingplatforms.com](https://www.craftingplatforms.com) — project home, about the author, and links
+- **Early Access** (digital): [leanpub.com/crafting-platforms](https://leanpub.com/crafting-platforms) — get chapters as they're published
 - **Newsletter**: [newsletter.craftingplatforms.com](https://newsletter.craftingplatforms.com) — practical articles, platform engineering insights, and early announcements
 
 ## Table of Contents (Book Chapters)
@@ -265,7 +265,8 @@ Model Context Protocol servers extend Claude with domain-specific tools (query T
 
 ## Connect
 
-- **Book & Early Access:** [craftingplatforms.com](https://www.craftingplatforms.com)
+- **Website:** [craftingplatforms.com](https://www.craftingplatforms.com) — project home
+- **Early Access:** [leanpub.com/crafting-platforms](https://leanpub.com/crafting-platforms) — chapters as published
 - **Newsletter:** [newsletter.craftingplatforms.com](https://newsletter.craftingplatforms.com) — practical articles on platform engineering
 - **GitHub:** [github.com/craftingplatforms](https://github.com/craftingplatforms)
 - **Author:** Ezequiel Foncubierta — 25 years in infrastructure, cloud, and platform engineering
