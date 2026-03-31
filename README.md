@@ -29,20 +29,21 @@ The book teaches **humans** the principles and patterns for building platforms. 
 - **Early Access** (digital): [leanpub.com/crafting-platforms](https://leanpub.com/crafting-platforms) — get chapters as they're published
 - **Newsletter**: [newsletter.craftingplatforms.com](https://newsletter.craftingplatforms.com) — practical articles, platform engineering insights, and early announcements
 
-## Table of Contents (Book Chapters)
+## Book Chapters
 
-| Chapter | Topic | AI Artifacts |
-|---------|-------|-------------|
-| 1 | Introduction | — |
-| 2 | Internal Developer Platform | — |
-| 3 | Segmentation | `segmentation-designer` (skill) |
-| 4 | Infrastructure | `infrastructure-scaffolder` (skill) |
-| 5 | CI/CD | `pipeline-generator` (skill) |
-| 6 | Observability | `observability-setup` (skill) |
-| 7 | Security and Compliance | `security-auditor` (skill) |
-| 8 | Developer Experience | `devex-improver` (skill) |
+| Chapter | Topic |
+|---------|-------|
+| 0 | Preface |
+| 1 | Introduction |
+| 2 | Internal Developer Platform |
+| 3 | Segmentation |
+| 4 | Infrastructure |
+| 5 | CI/CD |
+| 6 | Observability |
+| 7 | Security and Compliance |
+| 8 | Developer Experience |
 
-*Artifacts will be added as chapters are published.*
+**AI artifacts for each chapter will be added as the book is completed.** See the [Artifact Inventory](#artifact-inventory) below to track progress.
 
 ---
 
@@ -73,7 +74,13 @@ ai/
 
 #### Claude Code
 
-Copy skills globally or per-project:
+**Option 1: Using `skills.sh` (recommended)**
+
+```bash
+./skills.sh install      # Install skills globally or per-project
+```
+
+**Option 2: Manual copy**
 
 ```bash
 # Global (all projects)
@@ -84,10 +91,7 @@ mkdir -p your-project/.claude/skills/
 cp skills/*.md your-project/.claude/skills/
 ```
 
-Then invoke in Claude Code:
-```
-Help me design a platform segmentation strategy using the design-segmentation skill.
-```
+Then invoke in Claude Code when skills are available.
 
 See [`vendors/claude-code/README.md`](vendors/claude-code/README.md) for full setup.
 
@@ -215,39 +219,9 @@ Model Context Protocol servers extend Claude with domain-specific tools (query T
 
 ## Artifact Inventory
 
-**Skills** (machine-executable approaches to platform tasks):
+Currently **empty**. Skills, commands, agents, and MCP servers will be developed and published as corresponding book chapters are completed.
 
-| Name | Chapter | Status |
-|------|---------|--------|
-| `design-segmentation` | Ch. 3 | Planned (Q2 2026) |
-| `scaffold-infra` | Ch. 4 | Planned (Q3 2026) |
-| `generate-pipeline` | Ch. 5 | Planned (Q3 2026) |
-| `setup-observability` | Ch. 6 | Planned (Q4 2026) |
-| `audit-security` | Ch. 7 | Planned (Q4 2026) |
-| `improve-devex` | Ch. 8 | Planned (Q1 2027) |
-
-**Commands** (repeatable workflows):
-
-| Name | Purpose | Status |
-|------|---------|--------|
-| `/platform-review` | Review a PR for platform standards | Planned |
-| `/cost-report` | Generate cost attribution by team | Planned |
-| `/infra-drift` | Detect Terraform drift | Planned |
-
-**Agents** (specialized sub-agents):
-
-| Name | Focus | Status |
-|------|-------|--------|
-| `infra-reviewer` | Code review for infrastructure | Planned |
-| `slo-designer` | SLO/SLI design | Planned |
-
-**MCP Servers:**
-
-| Server | Purpose | Status |
-|--------|---------|--------|
-| `terraform-state` | Query Terraform state | Planned |
-| `platform-catalog` | Read from service catalog | Planned |
-| `observability` | Query metrics and logs | Planned |
+**Check the [`skills/`](skills/), [`commands/`](commands/), [`agents/`](agents/), and [`mcp/`](mcp/) directories for the latest artifacts, and subscribe to the [newsletter](https://newsletter.craftingplatforms.com) for announcements when new artifacts are released.**
 
 ---
 
@@ -269,7 +243,7 @@ Model Context Protocol servers extend Claude with domain-specific tools (query T
 - **Early Access:** [leanpub.com/crafting-platforms](https://leanpub.com/crafting-platforms) — chapters as published
 - **Newsletter:** [newsletter.craftingplatforms.com](https://newsletter.craftingplatforms.com) — practical articles on platform engineering
 - **GitHub:** [github.com/craftingplatforms](https://github.com/craftingplatforms)
-- **Author:** Ezequiel Foncubierta — 25 years in infrastructure, cloud, and platform engineering
+- **Author:** Ezequiel Foncubierta — [foncubierta.com](https://foncubierta.com) — [@foncubierta.com on Bluesky](https://bsky.app/profile/foncubierta.com)
 
 ---
 
