@@ -21,7 +21,8 @@ Check that the README.md Artifact Inventory is accurate and in sync with what is
    - Remove stale entries
    - Update statuses from "Planned" to "Published" where files now exist
 
-5. **Check the book cross-reference** — read `../book/chapters/en/appendix-a-skills-catalog.md` and flag any skills present here but not listed there.
+5. **Check the book cross-reference** *(optional)* — if `../book/chapters/en/appendix-a-skills-catalog.md` exists, read it and flag any skills present here that have a book chapter reference but are not listed there.
+   - Skip skills with no book chapter reference — they don't need to be in the catalog.
    - Do not edit the book file — just report what needs updating.
 
 6. **Report** a brief summary of what was changed and what (if anything) still needs manual attention in the book.

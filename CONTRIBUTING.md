@@ -4,7 +4,7 @@ Thank you for contributing! Every artifact here helps platform engineers move fa
 
 ## What We Accept
 
-Contributions grounded in the content of *Crafting Platforms* by Ezequiel Foncubierta:
+Practical, vendor-agnostic artifacts for platform engineering and AI:
 
 - **Skills** — reusable AI instructions for platform engineering tasks (design, implementation, hybrid, orchestration)
 - **Commands** — named workflows invoked via slash command
@@ -12,13 +12,15 @@ Contributions grounded in the content of *Crafting Platforms* by Ezequiel Foncub
 - **Hooks** — event-driven automation scripts
 - **MCP servers** — domain-specific tool extensions
 
-We do **not** accept artifacts that are speculative, not tied to a book chapter, or duplicate existing work without clear improvement.
+Artifacts may be grounded in the *Crafting Platforms* book, in platform engineering best practices, or in AI agent patterns. What we don't accept: speculative ideas without a concrete use case, or duplicates of existing artifacts without clear improvement.
+
+If your artifact relates to a book chapter, link to it — it makes the artifact more cohesive and discoverable for readers.
 
 ## Before You Start
 
 1. **Check open issues and PRs** — someone may already be working on it
 2. **Open an issue first** for new artifacts — use the [New artifact proposal](.github/ISSUE_TEMPLATE/new-artifact.md) template to discuss before building
-3. **Read the book chapter** the artifact relates to — your artifact should reflect the book's principles, not generic best practices
+3. **If your artifact relates to the book**, read the corresponding chapter first — your artifact should reflect the book's principles, not generic best practices
 
 ## Writing a Skill
 
@@ -29,7 +31,7 @@ Use the `write-skill` skill (in `.claude/skills/write-skill.md`) as your guide. 
 - **Orchestration skills** should reference other skills — internal or external — rather than duplicate their logic
 - Skills are **vendor-agnostic**: no Claude Code / Cursor / Copilot-specific syntax in the body
 - All skills must include a **version** in frontmatter (semver, start at `0.1.0`)
-- Every skill must link back to its book chapter(s) in the "Related Chapter(s)" section
+- If the skill relates to a book chapter, include a "Related Chapter(s)" section linking to [leanpub.com/crafting-platforms](https://leanpub.com/crafting-platforms)
 
 ## Writing an Agent
 
@@ -55,7 +57,7 @@ All CRITICAL issues must be resolved. MINOR issues should be addressed. SUGGESTI
 2. Create a branch: `artifact/<name>` for new artifacts, `fix/<name>` for corrections
 3. Follow the PR template — fill in all sections
 4. Run `/sync-inventory` to keep the README inventory accurate
-5. If your skill is new, add it to `../book/chapters/en/appendix-a-skills-catalog.md` (open a separate PR in the `book` repo, or note it in your PR description)
+5. If your artifact relates to a book chapter, consider adding it to `appendix-a-skills-catalog.md` in the `book` repo (open a separate PR there, or note it in your PR description)
 
 ## Versioning
 

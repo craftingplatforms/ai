@@ -1,6 +1,6 @@
 ---
 name: write-agent
-description: Write a new vendor-agnostic agent for the craftingplatforms/ai repository. Use this when asked to create a specialized sub-agent for a platform engineering task tied to a book chapter.
+description: Write a new vendor-agnostic agent for the craftingplatforms/ai repository. Use this when asked to create a specialized sub-agent for a platform engineering or AI task.
 ---
 
 # Writing a Crafting Platforms Agent
@@ -16,7 +16,7 @@ An agent differs from a skill: a **skill** teaches an AI *how* to do something; 
 - **Narrow scope** — an agent should do one thing well. If it needs to do two things, consider two agents.
 - **Minimal tools** — only grant the tools the agent actually needs. Less is more.
 - **Self-contained context** — the agent's system prompt must include everything it needs to operate. It cannot rely on the parent session's context.
-- **Grounded in book content** — every agent must anchor to at least one book chapter.
+- **Grounded in practice** — agents should be grounded in the book, platform engineering best practices, or AI agent patterns. If there's a related book chapter, linking to it makes the agent more cohesive.
 
 ## File Location and Name
 
@@ -43,7 +43,7 @@ tools: [Read, Grep]  # minimal — only what this agent needs
 ## What This Agent Knows
 
 <Key domain knowledge the agent needs. This is the agent's "memory" — include
-principles from the book chapter, relevant constraints, and platform context.>
+principles from the book chapter (if applicable), relevant constraints, and platform context.>
 
 ## What This Agent Does Not Do
 
@@ -58,7 +58,10 @@ to do, so the parent session knows when to spawn a different agent.>
 
 <What the agent produces. Be specific.>
 
-## Related Chapter(s)
+## Related Chapter(s) *(optional)*
+
+*(Include this section if the agent relates to one or more chapters in the book.
+Omit it if the agent is grounded in general platform engineering or AI best practices.)*
 
 This agent is grounded in **Chapter N: <Chapter Name>** of *Crafting Platforms* by Ezequiel Foncubierta.
 
@@ -90,7 +93,7 @@ Omit all others. A reviewer agent doesn't need `Bash`. A scaffolding agent doesn
 - [ ] "What This Agent Does Not Do" section is present and specific
 - [ ] System prompt is fully self-contained — no assumed context from parent session
 - [ ] No vendor-specific tool mechanics in the body ("use the Skill tool", "in Claude Code")
-- [ ] "Related Chapter(s)" links to the Leanpub page
+- [ ] If the agent relates to a book chapter: "Related Chapter(s)" section is present and links to Leanpub
 - [ ] File is in `agents/` and named in kebab-case
 
 ## After Writing the Agent

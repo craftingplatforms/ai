@@ -2,11 +2,11 @@
 
 > Part of the craftingplatforms workspace. Other projects: [`book/`](../book/CLAUDE.md), [`website/`](../website/CLAUDE.md), [`newsletter/`](../newsletter/CLAUDE.md)
 
-Vendor-agnostic AI artifacts (skills, commands, agents, hooks, MCP servers) that implement concepts from each chapter of *Crafting Platforms* by Ezequiel Foncubierta. Artifacts live in capability directories (`skills/`, `commands/`, etc.); `vendors/` holds thin deployment adapters for Claude Code, Cursor, and GitHub Copilot.
+Vendor-agnostic AI artifacts (skills, commands, agents, hooks, MCP servers) for platform engineering. Closely related to the book *Crafting Platforms* by Ezequiel Foncubierta, but the repository can grow beyond it — artifacts grounded in platform engineering or AI best practices are equally welcome.
 
 **Key rules:**
-- Artifacts must be grounded in book content — no artifact without a corresponding chapter
-- The mapping is flexible: one chapter can produce many artifacts; one artifact can span multiple chapters
+- Artifacts must be practical and specific — no speculative or toy examples
+- If an artifact relates to a book chapter, link to it — it makes the artifact more cohesive and discoverable
 - Written vendor-agnostically — no platform-specific syntax in the artifact body
 - Skills can produce any output: design documents, Terraform, scripts, pipelines, or a mix
 - Skills can reference and delegate to external curated skills/tools rather than reinventing them

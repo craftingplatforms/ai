@@ -1,12 +1,12 @@
 # Crafting Platforms — AI Artifacts
 
-Build and train AI agents to architect internal developer platforms. This repository contains reusable skills, commands, agents, and configurations for major AI platforms (Claude Code, GitHub Copilot, Cursor), all grounded in the concepts from the [**Crafting Platforms**](https://craftingplatforms.com) book.
+Build and train AI agents to architect internal developer platforms. This repository contains reusable skills, commands, agents, and configurations for major AI platforms (Claude Code, GitHub Copilot, Cursor). Closely related to the [**Crafting Platforms**](https://craftingplatforms.com) book — but open to any platform engineering or AI best practice.
 
 ## What Is This?
 
 Instead of manually architecting your platform, **teach an AI agent to do it**. This repository provides pre-built, production-ready artifacts that guide AI through platform engineering tasks: designing segmentation strategies, scaffolding infrastructure, auditing security, automating CI/CD, and more.
 
-Every artifact here maps to one or multiple chapters in *Crafting Platforms*, ensuring alignment between human guidance (the book) and machine execution (the code).
+Many artifacts here relate to chapters in *Crafting Platforms*, bridging human guidance (the book) and machine execution (the code). Others are grounded in platform engineering or AI best practices — the repository grows with the community.
 
 ## The Book: Crafting Platforms
 
@@ -43,7 +43,7 @@ The book teaches **humans** the principles and patterns for building platforms. 
 | 7 | Security and Compliance |
 | 8 | Developer Experience |
 
-**AI artifacts for each chapter will be added as the book is completed.** See the [Artifact Inventory](#artifact-inventory) below to track progress.
+Artifacts tied to book chapters will be added as the book is completed. Community contributions grounded in platform engineering best practices are also welcome. See the [Artifact Inventory](#artifact-inventory) to track progress.
 
 ---
 
@@ -136,8 +136,8 @@ See [craftingplatforms.com](https://www.craftingplatforms.com) to read more.
 **Guidelines:**
 
 - Write for an AI, not a human. Be explicit about every step.
-- Include enough context so the skill works standalone, but reference the book chapter for deeper understanding.
-- Always end with a link to the corresponding book chapter.
+- Include enough context so the skill works standalone.
+- If the skill relates to a book chapter, link to it for deeper understanding.
 - No Terraform, Kubernetes, or application code — that goes in the book's examples or separate repos. The skill teaches the *approach*, not the implementation details.
 
 #### Creating a Command
@@ -182,14 +182,13 @@ Model Context Protocol servers extend Claude with domain-specific tools (query T
 
 **Format:** Depends on language. Includes a `README.md` with setup instructions.
 
-### Workflow: From Book Chapter to AI Artifact
+### Workflow: From Idea to Artifact
 
-1. **Chapter published** → Add entry to the table above
+1. **Identify the need** → Book chapter being published, a best practice worth encoding, or a community request
 2. **Design the artifact** → Skill? Command? Agent? Depends on the use case
 3. **Write vendor-agnostically** → Place in `skills/`, `commands/`, etc.
-4. **Add vendor adapters** → Update `vendors/` with platform-specific docs if needed
-5. **Test** → Verify the artifact works with real platform engineers
-6. **Cross-reference** → Ensure the artifact is discoverable from the book chapter
+4. **Test** → Verify the artifact works with real platform engineers
+5. **Cross-reference** → If the artifact relates to a book chapter, link to it
 
 ---
 

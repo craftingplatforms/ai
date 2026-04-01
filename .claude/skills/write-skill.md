@@ -1,6 +1,6 @@
 ---
 name: write-skill
-description: Write a new vendor-agnostic skill for the craftingplatforms/ai repository. Use this when asked to create a skill for a platform engineering task tied to a book chapter.
+description: Write a new vendor-agnostic skill for the craftingplatforms/ai repository. Use this when asked to create a skill for a platform engineering or AI task.
 ---
 
 # Writing a Crafting Platforms Skill
@@ -9,7 +9,7 @@ description: Write a new vendor-agnostic skill for the craftingplatforms/ai repo
 
 You are working in the `craftingplatforms/ai` repository — a companion to the book *Crafting Platforms* by Ezequiel Foncubierta. Skills here are reusable, vendor-agnostic instructions that teach AI agents how to accomplish platform engineering tasks.
 
-Skills must be grounded in book content. The mapping is flexible: one chapter can produce many skills, and a skill can draw from multiple chapters when the concept is cross-cutting. What matters is that every skill has a clear anchor in the book.
+Skills may be grounded in the *Crafting Platforms* book, in platform engineering best practices, or in AI agent patterns. If a skill relates to a book chapter, linking to it makes the skill more cohesive — but it is not required.
 
 ## Skill Types
 
@@ -75,7 +75,8 @@ Before proceeding, ask the user (or infer from context):
 
 ## Principles to Apply
 
-<Draw directly from the book chapter. These are the "why" behind the implementation choices.>
+<Draw from the book chapter if applicable, or from platform engineering/AI best practices.
+These are the "why" behind the implementation choices.>
 
 - <Principle 1>
 - <Principle 2>
@@ -88,10 +89,12 @@ Before proceeding, ask the user (or infer from context):
 - **[skill-name](url)** — what it does, when to use it, any parameter guidance
 - **[tool/repo](url)** — e.g., a curated Terraform module registry, a community agent library
 
-## Related Chapter(s)
+## Related Chapter(s) *(optional)*
+
+*(Include this section if the skill relates to one or more chapters in the book.
+Omit it if the skill is grounded in general platform engineering or AI best practices.)*
 
 This skill is grounded in **Chapter N: <Chapter Name>** of *Crafting Platforms* by Ezequiel Foncubierta.
-*(List multiple chapters if the skill spans more than one.)*
 
 - Read the book: [leanpub.com/crafting-platforms](https://leanpub.com/crafting-platforms)
 - Project home: [craftingplatforms.com](https://www.craftingplatforms.com)
@@ -111,7 +114,7 @@ Before saving the file, verify:
 - [ ] Orchestration skills list sub-skills with handoff context
 - [ ] External skills/tools are credited with URLs and usage guidance
 - [ ] No vendor-specific tool assumptions in the body (no "use the Skill tool", no "in Claude Code...")
-- [ ] "Related Chapter(s)" links to the Leanpub page
+- [ ] If the skill relates to a book chapter: "Related Chapter(s)" section is present and links to Leanpub
 - [ ] File is in `skills/` and named in kebab-case
 
 ## After Writing the Skill

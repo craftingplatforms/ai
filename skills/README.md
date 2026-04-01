@@ -1,12 +1,10 @@
 # Skills
 
-Self-contained, vendor-agnostic guidance for accomplishing platform engineering tasks.
+Self-contained, vendor-agnostic instructions for accomplishing platform engineering tasks.
 
-Each skill maps to a book chapter and teaches an AI the approach to solve a specific problem: designing segmentation strategies, scaffolding infrastructure, auditing security, etc.
-
-Skills are written once (here) and deployed to any AI platform via adapters in `../vendors/`.
+Skills may be grounded in the *Crafting Platforms* book, in platform engineering best practices, or in AI agent patterns. Where a skill relates to a book chapter, it links to it — but it's not required.
 
 **See [../README.md](../README.md) for:**
 - How to create a new skill
-- Complete list of planned and published skills
-- Deployment instructions for your AI platform
+- Complete list of published skills
+- Installation instructions
