@@ -77,7 +77,7 @@ ai/
 **Option 1: Using [skills.sh](https://skills.sh) (recommended)**
 
 ```bash
-skills install craftingplatforms/ai
+npx skills add https://github.com/craftingplatforms/ai
 ```
 
 **Option 2: Manual copy**
