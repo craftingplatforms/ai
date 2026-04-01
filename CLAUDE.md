@@ -8,7 +8,8 @@ Vendor-agnostic AI artifacts (skills, commands, agents, hooks, MCP servers) that
 - Artifacts must be grounded in book content — no artifact without a corresponding chapter
 - The mapping is flexible: one chapter can produce many artifacts; one artifact can span multiple chapters
 - Written vendor-agnostically — no platform-specific syntax in the artifact body
-- No Terraform/Kubernetes/application code here — skills teach *approach*, not implementation
+- Skills can produce any output: design documents, Terraform, scripts, pipelines, or a mix
+- Skills can reference and delegate to external curated skills/tools rather than reinventing them
 - Do not anticipate artifacts not explicitly requested — keep the repo clean
 
 ## Operations

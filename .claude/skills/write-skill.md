@@ -11,11 +11,24 @@ You are working in the `craftingplatforms/ai` repository — a companion to the 
 
 Skills must be grounded in book content. The mapping is flexible: one chapter can produce many skills, and a skill can draw from multiple chapters when the concept is cross-cutting. What matters is that every skill has a clear anchor in the book.
 
+## Skill Types
+
+Choose the type before writing — it shapes the template:
+
+| Type | What it produces | Examples |
+|------|-----------------|---------|
+| **Design** | Decisions, strategies, architecture documents | Segmentation strategy, SLO definition |
+| **Implementation** | Working code — Terraform, scripts, manifests, pipelines | VPC scaffold, CI/CD pipeline, IAM baseline |
+| **Hybrid** | Design decisions + implementation, interleaved | "Design and scaffold the networking layer" |
+| **Orchestration** | Calls other skills in sequence; produces a workflow | "Stand up a full platform environment" |
+
+A skill can also **reference external skills** from curated repositories when a well-maintained external skill does the job better than writing a new one (e.g., a community Terraform AWS skill). In that case, the skill's job is to guide *which* external skill to use, with what parameters, and *why* — aligned with the book's principles.
+
 ## File Location and Name
 
 `skills/<kebab-case-name>.md`
 
-Name the file after the action: `design-segmentation.md`, `scaffold-infra.md`, `audit-security.md`.
+Name the file after the action: `design-segmentation.md`, `scaffold-vpc.md`, `audit-iam.md`.
 
 ## Template
 
@@ -31,6 +44,13 @@ description: <One sentence — when to invoke this skill. This is used for match
 
 <What the AI should accomplish — one paragraph, outcome-focused.>
 
+## Skill Type
+
+<Design | Implementation | Hybrid | Orchestration>
+
+<If Orchestration: list the skills this skill calls and in what order.>
+<If this skill references external skills: list them with URLs and explain when to use each.>
+
 ## What to Gather First
 
 Before proceeding, ask the user (or infer from context):
@@ -41,17 +61,31 @@ Before proceeding, ask the user (or infer from context):
 
 ## Process
 
-<Step-by-step approach. Be explicit — write for an AI, not a human. Each step should be actionable.>
+<Step-by-step approach. Be explicit — write for an AI, not a human.>
+
+<For Implementation skills: include concrete code, templates, or scripts.
+ For Design skills: include the decision framework and expected outputs.
+ For Hybrid: interleave design steps with implementation outputs.
+ For Orchestration: sequence the sub-skills with handoff context between them.>
 
 ## Output Format
 
-<What deliverables to produce. Include structure, format, and any required sections.>
+<What deliverables to produce. Be specific about format, structure, file names.>
 
 ## Principles to Apply
 
-- <Principle 1 from the book chapter>
+<Draw directly from the book chapter. These are the "why" behind the implementation choices.>
+
+- <Principle 1>
 - <Principle 2>
 - ...
+
+## External Skills and Tools
+
+<Optional. If this skill delegates to or recommends external skills, list them here:>
+
+- **[skill-name](url)** — what it does, when to use it, any parameter guidance
+- **[tool/repo](url)** — e.g., a curated Terraform module registry, a community agent library
 
 ## Related Chapter(s)
 
@@ -66,12 +100,15 @@ This skill is grounded in **Chapter N: <Chapter Name>** of *Crafting Platforms* 
 
 Before saving the file, verify:
 
-- [ ] The `description` field is one sentence and captures when to use this skill
+- [ ] Skill type is declared and the template reflects it
+- [ ] `description` is one sentence and captures when to use this skill
 - [ ] "What to Gather First" lists real questions — not generic placeholders
-- [ ] The process is explicit enough for an AI with no prior context to follow
-- [ ] No Terraform/Kubernetes/application code — skills teach *approach*, not implementation
+- [ ] Process is explicit enough for an AI with no prior context to follow
+- [ ] Implementation skills include actual code, templates, or scripts — not just guidance
+- [ ] Orchestration skills list sub-skills with handoff context
+- [ ] External skills/tools are credited with URLs and usage guidance
 - [ ] No vendor-specific tool assumptions in the body (no "use the Skill tool", no "in Claude Code...")
-- [ ] "Related Chapter" section links to the Leanpub page
+- [ ] "Related Chapter(s)" links to the Leanpub page
 - [ ] File is in `skills/` and named in kebab-case
 
 ## After Writing the Skill
