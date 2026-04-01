@@ -7,7 +7,7 @@ Vendor-agnostic AI artifacts (skills, commands, agents, hooks, MCP servers) for 
 **Key rules:**
 - Artifacts must be practical and specific — no speculative or toy examples
 - If an artifact relates to a book chapter, link to it — it makes the artifact more cohesive and discoverable
-- Written vendor-agnostically — no platform-specific syntax in the artifact body
+- Written AI vendor-agnostically — no platform-specific syntax in the artifact body
 - Skills can produce any output: design documents, Terraform, scripts, pipelines, or a mix
 - Skills can reference and delegate to external curated skills/tools rather than reinventing them
 - Do not anticipate artifacts not explicitly requested — keep the repo clean

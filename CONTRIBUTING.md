@@ -24,14 +24,26 @@ If your artifact relates to a book chapter, link to it — it makes the artifact
 
 ## Writing a Skill
 
-Use the `write-skill` skill (in `.claude/skills/write-skill.md`) as your guide. Key points:
+Skills follow the [Agent Skills](https://agentskills.io) open format — a **directory**, not a single file:
+
+```
+skills/skill-name/
+├── SKILL.md        # Required: metadata + instructions (under 500 lines)
+├── scripts/        # Optional: working scripts agents can run
+├── references/     # Optional: detailed docs loaded on demand
+└── assets/         # Optional: templates, schemas, data files
+```
+
+Key points:
 
 - Every skill must have a **type**: Design, Implementation, Hybrid, or Orchestration
-- **Implementation skills** should produce real, working output (Terraform, scripts, pipelines)
-- **Orchestration skills** should reference other skills — internal or external — rather than duplicate their logic
-- Skills are **vendor-agnostic**: no Claude Code / Cursor / Copilot-specific syntax in the body
-- All skills must include a **version** in frontmatter (semver, start at `0.1.0`)
-- If the skill relates to a book chapter, include a "Related Chapter(s)" section linking to [leanpub.com/crafting-platforms](https://leanpub.com/crafting-platforms)
+- **Implementation skills** must ship working scripts in `scripts/` — not just prose describing what to run
+- **Orchestration skills** reference other skills rather than duplicating their logic
+- Skills are **AI vendor-agnostic**: no Claude Code / Cursor / Copilot-specific syntax in the body
+- `metadata.version` in `SKILL.md` frontmatter, starting at `0.1.0`
+- If the skill relates to a book chapter, set `metadata.chapter` and add a "Related Chapter(s)" section
+
+Use the `write-skill` skill (`.claude/skills/write-skill.md`) for the complete template, frontmatter spec, and quality checklist.
 
 ## Writing an Agent
 

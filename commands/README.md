@@ -1,6 +1,6 @@
 # Commands
 
-Named workflows invoked via slash command (e.g., `/platform-review`, `/scaffold-infra`). Commands are **orchestrators** — they sequence steps, call skills, and guide the user through a workflow. They are not knowledge repositories.
+Named workflows invoked via slash command (e.g., `/platform-review`, `/scaffold-network`). Commands are **orchestrators** — they sequence steps, call skills, and guide the user through a workflow. They are not knowledge repositories.
 
 A command differs from a skill: a **skill** contains deep domain knowledge; a **command** sequences that knowledge into a concrete, repeatable workflow.
 
