@@ -5,8 +5,9 @@
 Vendor-agnostic AI artifacts (skills, commands, agents, hooks, MCP servers) that implement concepts from each chapter of *Crafting Platforms* by Ezequiel Foncubierta. Artifacts live in capability directories (`skills/`, `commands/`, etc.); `vendors/` holds thin deployment adapters for Claude Code, Cursor, and GitHub Copilot.
 
 **Key rules:**
-- One artifact per task, written vendor-agnostically
-- Every artifact maps to a book chapter — no chapter, no artifact
+- Artifacts must be grounded in book content — no artifact without a corresponding chapter
+- The mapping is flexible: one chapter can produce many artifacts; one artifact can span multiple chapters
+- Written vendor-agnostically — no platform-specific syntax in the artifact body
 - No Terraform/Kubernetes/application code here — skills teach *approach*, not implementation
 - Do not anticipate artifacts not explicitly requested — keep the repo clean
 

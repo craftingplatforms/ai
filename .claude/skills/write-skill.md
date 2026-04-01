@@ -7,7 +7,9 @@ description: Write a new vendor-agnostic skill for the craftingplatforms/ai repo
 
 ## Context
 
-You are working in the `craftingplatforms/ai` repository — a companion to the book *Crafting Platforms* by Ezequiel Foncubierta. Skills here are reusable, vendor-agnostic instructions that teach AI agents how to accomplish platform engineering tasks. Each skill maps to a book chapter.
+You are working in the `craftingplatforms/ai` repository — a companion to the book *Crafting Platforms* by Ezequiel Foncubierta. Skills here are reusable, vendor-agnostic instructions that teach AI agents how to accomplish platform engineering tasks.
+
+Skills must be grounded in book content. The mapping is flexible: one chapter can produce many skills, and a skill can draw from multiple chapters when the concept is cross-cutting. What matters is that every skill has a clear anchor in the book.
 
 ## File Location and Name
 
@@ -51,11 +53,12 @@ Before proceeding, ask the user (or infer from context):
 - <Principle 2>
 - ...
 
-## Related Chapter
+## Related Chapter(s)
 
-This skill corresponds to **Chapter N: <Chapter Name>** of *Crafting Platforms* by Ezequiel Foncubierta.
+This skill is grounded in **Chapter N: <Chapter Name>** of *Crafting Platforms* by Ezequiel Foncubierta.
+*(List multiple chapters if the skill spans more than one.)*
 
-- Read the chapter: [leanpub.com/crafting-platforms](https://leanpub.com/crafting-platforms)
+- Read the book: [leanpub.com/crafting-platforms](https://leanpub.com/crafting-platforms)
 - Project home: [craftingplatforms.com](https://www.craftingplatforms.com)
 ```
 
