@@ -3,7 +3,7 @@ Create a new skill for this repository.
 ## Steps
 
 1. **Ask for the skill details** if not already provided:
-   - Which book chapter does this skill correspond to?
+   - Which book chapters does this skill correspond to?
    - What platform engineering task should the skill accomplish?
    - What should the skill be named? (suggest a kebab-case name based on the task)
 

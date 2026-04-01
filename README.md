@@ -1,12 +1,12 @@
 # Crafting Platforms — AI Artifacts
 
-Build and train AI agents to architect internal developer platforms. This repository contains reusable skills, commands, agents, and configurations for major AI platforms (Claude Code, GitHub Copilot, Cursor), all grounded in the concepts from the **Crafting Platforms** book.
+Build and train AI agents to architect internal developer platforms. This repository contains reusable skills, commands, agents, and configurations for major AI platforms (Claude Code, GitHub Copilot, Cursor), all grounded in the concepts from the [**Crafting Platforms**](https://craftingplatforms.com) book.
 
 ## What Is This?
 
 Instead of manually architecting your platform, **teach an AI agent to do it**. This repository provides pre-built, production-ready artifacts that guide AI through platform engineering tasks: designing segmentation strategies, scaffolding infrastructure, auditing security, automating CI/CD, and more.
 
-Every artifact here maps to a chapter in *Crafting Platforms*, ensuring alignment between human guidance (the book) and machine execution (the code).
+Every artifact here maps to one or multiple chapters in *Crafting Platforms*, ensuring alignment between human guidance (the book) and machine execution (the code).
 
 ## The Book: Crafting Platforms
 
@@ -70,14 +70,14 @@ ai/
 
 ## Getting Started
 
-### For Users: Deploy Artifacts to Your AI Platform
+### For Users: Install Artifacts
 
 #### Claude Code
 
-**Option 1: Using `skills.sh` (recommended)**
+**Option 1: Using [skills.sh](https://skills.sh) (recommended)**
 
 ```bash
-./skills.sh install      # Install skills globally or per-project
+skills install craftingplatforms/ai
 ```
 
 **Option 2: Manual copy**
@@ -91,31 +91,7 @@ mkdir -p your-project/.claude/skills/
 cp skills/*.md your-project/.claude/skills/
 ```
 
-Then invoke in Claude Code when skills are available.
-
-See [`vendors/claude-code/README.md`](vendors/claude-code/README.md) for full setup.
-
-#### GitHub Copilot
-
-Copy the consolidated instructions to your repo:
-
-```bash
-mkdir -p your-project/.github/
-cp vendors/github-copilot/platform-engineer.md your-project/.github/copilot-instructions.md
-```
-
-See [`vendors/github-copilot/README.md`](vendors/github-copilot/README.md) for details.
-
-#### Cursor
-
-Copy rules to your workspace:
-
-```bash
-mkdir -p your-project/.cursor/rules/
-cp vendors/cursor/platform-engineer.mdc your-project/.cursor/rules/
-```
-
-See [`vendors/cursor/README.md`](vendors/cursor/README.md) for details.
+Support for additional AI platforms (GitHub Copilot, Cursor, etc.) is planned for future releases.
 
 ### For Developers: Build New Artifacts
 

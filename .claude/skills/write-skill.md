@@ -36,6 +36,7 @@ Name the file after the action: `design-segmentation.md`, `scaffold-vpc.md`, `au
 ---
 name: <kebab-case-name>
 description: <One sentence — when to invoke this skill. This is used for matching by AI platforms.>
+version: "0.1.0"
 ---
 
 # <Title>
@@ -100,8 +101,10 @@ This skill is grounded in **Chapter N: <Chapter Name>** of *Crafting Platforms* 
 
 Before saving the file, verify:
 
-- [ ] Skill type is declared and the template reflects it
+- [ ] `name` is in kebab-case
 - [ ] `description` is one sentence and captures when to use this skill
+- [ ] `version` is set to `0.1.0`
+- [ ] Skill type is declared and the template reflects it
 - [ ] "What to Gather First" lists real questions — not generic placeholders
 - [ ] Process is explicit enough for an AI with no prior context to follow
 - [ ] Implementation skills include actual code, templates, or scripts — not just guidance

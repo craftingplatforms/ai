@@ -19,6 +19,10 @@ Use the commands and skills in `.claude/` to maintain this repo:
 | | |
 |---|---|
 | `/new-skill` | Scaffold a new skill, update README inventory, prompt book appendix update |
+| `/new-agent` | Scaffold a new agent |
+| `/new-command` | Scaffold a new command |
 | `/sync-inventory` | Verify README inventory matches actual files; flag book cross-reference gaps |
 | `artifact-reviewer` agent | Review any artifact for quality before publishing |
-| `write-skill` skill | Guidance and template for writing a well-formed skill |
+| `write-skill` skill | Template and checklist for writing a well-formed skill |
+| `write-agent` skill | Template and checklist for writing a well-formed agent |
+| `write-command` skill | Template and checklist for writing a well-formed command |
