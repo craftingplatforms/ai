@@ -1,6 +1,21 @@
 # Crafting Platforms — AI Artifacts
 
-> Part of the craftingplatforms workspace. Other projects: [`book/`](../book/CLAUDE.md), [`website/`](../website/CLAUDE.md), [`newsletter/`](../newsletter/CLAUDE.md)
+> Part of the craftingplatforms workspace. Other projects: [`brand/`](../brand/README.md), [`book/`](../book/CLAUDE.md), [`website/`](../website/CLAUDE.md), [`newsletter/`](../newsletter/CLAUDE.md)
+
+## Brand & Style Reference
+
+All visual and verbal identity lives in [`../brand/`](../brand/README.md):
+
+| Resource | Path | Covers |
+|----------|------|--------|
+| **Palette & Typography** | [`../brand/palette.md`](../brand/palette.md) | Colors, fonts, semantic tokens |
+| **Voice & Tone** | [`../brand/voice.md`](../brand/voice.md) | Story characters, forbidden phrases, sentence rhythm — use when generating chapter content |
+
+AI artifacts in this repo produce written and technical content. When writing prose (skills,
+agents that generate copy), follow the voice guide. Visual output (diagrams, reports) should
+use the brand palette.
+
+---
 
 Vendor-agnostic AI artifacts (skills, commands, agents, hooks, MCP servers) for platform engineering. Closely related to the book *Crafting Platforms* by Ezequiel Foncubierta, but the repository can grow beyond it — artifacts grounded in platform engineering or AI best practices are equally welcome.
 
