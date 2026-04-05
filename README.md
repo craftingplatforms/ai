@@ -46,7 +46,29 @@ Artifacts tied to book chapters will be added as the book is completed. Communit
 
 ## Artifact Inventory
 
-Currently **empty** — artifacts will be published as book chapters are completed and community contributions are accepted.
+### Skills
+
+| Skill | Chapter | Status |
+|-------|---------|--------|
+| [`define-platform-vision`](skills/define-platform-vision/) | Chapter 2 | Published |
+| [`design-segmentation`](skills/design-segmentation/) | Chapter 3 | Published |
+| [`define-core-iam`](skills/define-core-iam/) | Chapter 4 | Published |
+| [`define-tenant-iam`](skills/define-tenant-iam/) | Chapter 4 | Published |
+| [`manage-azure-iam`](skills/manage-azure-iam/) | Chapter 4 | Published |
+| [`manage-aws-iam`](skills/manage-aws-iam/) | Chapter 4 | Published |
+| [`manage-gcp-iam`](skills/manage-gcp-iam/) | Chapter 4 | Published |
+| [`manage-k8s-iam`](skills/manage-k8s-iam/) | Chapter 4 | Published |
+| [`design-landing-zone`](skills/design-landing-zone/) | Chapter 5 | Published |
+| [`define-naming-convention`](skills/define-naming-convention/) | Chapter 5 | Published |
+| [`design-networking`](skills/design-networking/) | Chapter 5 | Published |
+| [`design-compute`](skills/design-compute/) | Chapter 5 | Published |
+| [`manage-azure-landing-zone`](skills/manage-azure-landing-zone/) | Chapter 5 | Published |
+| [`manage-aws-landing-zone`](skills/manage-aws-landing-zone/) | Chapter 5 | Published |
+| [`manage-gcp-landing-zone`](skills/manage-gcp-landing-zone/) | Chapter 5 | Published |
+| [`manage-azure-networking`](skills/manage-azure-networking/) | Chapter 5 | Published |
+| [`manage-aws-networking`](skills/manage-aws-networking/) | Chapter 5 | Published |
+| [`manage-gcp-networking`](skills/manage-gcp-networking/) | Chapter 5 | Published |
+| [`manage-k8s-namespaces`](skills/manage-k8s-namespaces/) | Chapter 5 | Published |
 
 Subscribe to the [newsletter](https://newsletter.craftingplatforms.com) for announcements when new artifacts are released.
 
