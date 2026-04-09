@@ -114,10 +114,10 @@ GCP firewall rules are attached to the VPC network (not subnets). Create rules f
 - `allow-hub-management` (priority 900): Allow ingress from the hub/platform management CIDR on management ports (SSH, metrics scraping, health checks). Apply via target tags.
 - `allow-lb-health-checks` (priority 800): Allow ingress from Google's health check IP ranges (`35.191.0.0/16`, `130.211.0.0/22`) on health check ports.
 
-**Live tier additional rules**:
+**`Tier("live")` additional rules**:
 - No `allow-public-ingress` — external traffic must enter through a load balancer, not directly to VMs.
 
-**Sandbox tier**:
+**`Tier("sandbox")`**:
 - Optionally allow developer SSH via IAP (`allow-iap-ssh`, allowing `35.235.240.0/20` on port 22) — use Identity-Aware Proxy instead of public SSH.
 
 For each rule:

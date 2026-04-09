@@ -3,7 +3,7 @@ name: manage-k8s-iam
 description: >
   Provision and sync Kubernetes RBAC resources — RoleBindings, ClusterRoleBindings, and
   ServiceAccounts — from a core-iam.yaml and tenant.yaml definition. Maps platform roles
-  (Reader, Contributor, Admin, Operator) to Kubernetes built-in ClusterRoles within tenant
+  (`Role("reader")`, `Role("contributor")`, `Role("admin")`, Operator) to Kubernetes built-in ClusterRoles within tenant
   namespaces. Uses the Kubernetes MCP server. Use when applying or updating RBAC after
   running define-core-iam or define-tenant-iam, or when onboarding a new tenant namespace.
 license: Apache-2.0
@@ -34,8 +34,8 @@ Implementation
 Apply the RBAC bindings from `core-iam.yaml` and/or one or more `tenants/{name}.yaml` files to one or more Kubernetes clusters. Ensure that:
 
 1. Each tenant's IAM groups are bound to the correct Kubernetes built-in ClusterRoles within the tenant's namespace(s).
-2. Platform team groups are bound to appropriate cluster-wide roles where needed.
-3. Operator ServiceAccounts exist per namespace for non-human pipeline access.
+2. platform team groups are bound to appropriate cluster-wide roles where needed.
+3. `Role("operator")` ServiceAccounts exist per namespace for non-human pipeline access.
 4. No direct `ClusterRoleBinding` with cluster-admin exists for tenant groups.
 
 This skill is **idempotent**: running it multiple times produces the same result.
@@ -70,10 +70,10 @@ Read the specified files and extract:
 
 - All groups (name, type, role)
 - Tenant names and their associated sectors and tiers
-- Operator Workload Identity definitions (for ServiceAccount annotation)
+- `Role("operator")` Workload Identity definitions (for ServiceAccount annotation)
 
 Validate:
-- No human members in Operator groups
+- No human members in `Role("operator")` groups
 - Tenant sectors map to known cluster coordinates
 
 Report validation errors and stop before applying changes.
@@ -84,15 +84,15 @@ Apply the standard role mapping from the chapter:
 
 | Platform Role | Kubernetes ClusterRole | Scope |
 |---------------|----------------------|-------|
-| Reader | `view` | Namespace (per tenant) |
-| Contributor | `edit` | Namespace (per tenant) |
-| Admin | `admin` | Namespace (per tenant) |
-| Operator | `admin` | Namespace (per tenant) — via ServiceAccount, not human group |
+| `Role("reader")` | `view` | Namespace (per tenant) |
+| `Role("contributor")` | `edit` | Namespace (per tenant) |
+| `Role("admin")` | `admin` | Namespace (per tenant) |
+| `Role("operator")` | `admin` | Namespace (per tenant) — via ServiceAccount, not human group |
 
 Rules:
 - Never bind tenant groups to `cluster-admin`. This is equivalent to giving root access to the entire cluster.
 - All tenant bindings are `RoleBinding` (namespace-scoped), never `ClusterRoleBinding`.
-- Platform team bindings may use `ClusterRoleBinding` for cluster-level administration roles, but only for the `platform-{tier}-admins` group and only with the `cluster-admin` ClusterRole — document these explicitly and keep them minimal.
+- platform team bindings may use `ClusterRoleBinding` for cluster-level administration roles, but only for the `platform-{tier}-admins` group and only with the `cluster-admin` ClusterRole — document these explicitly and keep them minimal.
 - The `view` ClusterRole excludes Secrets by default. If developers need to read Secrets for debugging, create a supplemental Role that grants `get` on `secrets` within the namespace and bind it separately — do not elevate the entire binding to `edit` for this purpose alone.
 
 ### Step 3 — Resolve Group References per Cloud Provider
@@ -122,13 +122,13 @@ For each tenant and each target cluster:
 
 1. Determine the namespace(s) for the tenant. If the cluster is tier-scoped (e.g., all workloads in the `ecommerce-live` cluster), the namespace is typically just `{tenant}`. If the cluster spans tiers, namespace may be `{tenant}-{tier}`.
 2. Verify the namespace exists. If it does not, report it and skip — namespace creation is outside this skill's scope.
-3. For each role (Reader, Contributor, Admin), check whether a RoleBinding already exists.
+3. For each role (`Role("reader")`, `Role("contributor")`, Admin), check whether a RoleBinding already exists.
 4. Create or update the RoleBinding to bind the group to the ClusterRole within the namespace.
 
 RoleBinding naming convention: `{group-name}` or `{role}-{group-name}` — be consistent.
 
 Example RoleBinding (AKS):
-```yaml
+``yaml
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
@@ -142,11 +142,11 @@ roleRef:
   kind: ClusterRole
   name: edit
   apiGroup: rbac.authorization.k8s.io
-```
+``
 
-### Step 5 — Create Operator ServiceAccounts
+### Step 5 — Create `Role("operator")` ServiceAccounts
 
-For each Operator group's non-human identity:
+For each `Role("operator")` group's non-human identity:
 
 1. Create a Kubernetes ServiceAccount in the tenant's namespace.
 2. Annotate it for cloud IAM integration:
@@ -154,7 +154,7 @@ For each Operator group's non-human identity:
    - **AKS**: `azure.workload.identity/client-id: {managed-identity-client-id}`
    - **GKE**: `iam.gke.io/gcp-service-account: {tenant}-{tier}-operator@{project}.iam.gserviceaccount.com`
 3. Create a RoleBinding binding the ServiceAccount to `admin` within the namespace.
-4. Do not create a ClusterRoleBinding for the ServiceAccount. Operator access must be namespace-scoped.
+4. Do not create a ClusterRoleBinding for the ServiceAccount. `Role("operator")` access must be namespace-scoped.
 
 ### Step 6 — Create Platform ClusterRoleBindings
 
@@ -162,7 +162,7 @@ For the platform team's cluster-level access needs:
 
 1. Check whether `ClusterRoleBinding` resources exist for platform groups.
 2. For cluster administration:
-   - `platform-{tier}-admins` → `cluster-admin` ClusterRole (JIT-only in Live — this binding alone is not sufficient; PIM or equivalent must gate activation)
+   - `platform-{tier}-admins` → `cluster-admin` ClusterRole (JIT-only in `Tier("live")` — this binding alone is not sufficient; PIM or equivalent must gate activation)
 3. For cluster-wide read access (e.g., monitoring, audit):
    - `platform-{tier}-readers` → `view` ClusterRole at cluster scope
 
@@ -194,7 +194,7 @@ In dry-run mode, produce the report without making changes.
 
 Produce a Markdown report named `k8s-iam-report.md`:
 
-```markdown
+``markdown
 # Kubernetes RBAC Sync Report
 
 **Date**: [timestamp]
@@ -235,7 +235,7 @@ Produce a Markdown report named `k8s-iam-report.md`:
 ## Open Items
 
 [Namespace creation needed, EKS Access Entry configuration required, etc.]
-```
+``
 
 ## Principles to Apply
 

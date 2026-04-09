@@ -82,8 +82,8 @@ Create dedicated route tables on the Transit Gateway to enforce spoke isolation:
 | Route Table | Purpose | Associates | Propagates From |
 |-------------|---------|-----------|----------------|
 | `rt-hub` | Hub/platform spoke routes | Hub VPC attachment | All spokes |
-| `rt-sandbox` | Sandbox tier isolation | Sandbox VPC attachments | Sandbox spokes only |
-| `rt-live` | Live tier isolation | Live VPC attachments | Live spokes only |
+| `rt-sandbox` | `Tier("sandbox")` isolation | Sandbox VPC attachments | Sandbox spokes only |
+| `rt-live` | `Tier("live")` isolation | Live VPC attachments | Live spokes only |
 
 Key rules:
 - Sandbox route tables must have **no routes to Live VPCs**. A static blackhole route for Live CIDR ranges makes this explicit.

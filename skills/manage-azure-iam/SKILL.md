@@ -35,8 +35,8 @@ Apply the IAM definitions from `core-iam.yaml` and/or one or more `tenants/{name
 1. All required Entra ID groups exist.
 2. Group membership matches the declared members.
 3. Role assignments are created at the correct scope (Management Group, Subscription, or Resource Group).
-4. PIM eligible assignments are configured for Admin and Live Contributor groups.
-5. Workload Identity Federation credentials are configured for Operator groups.
+4. PIM eligible assignments are configured for `Role("admin")` and `Tier("live")` `Role("contributor")` groups.
+5. Workload Identity Federation credentials are configured for `Role("operator")` groups.
 
 Drift between the declared state and the live Azure state must be identified and resolved. This skill is **idempotent**: running it multiple times produces the same result.
 
@@ -67,12 +67,12 @@ Read the IAM definition files before proceeding. Do not apply changes based on a
 Read the specified IAM definition files. Extract:
 
 - All groups to be managed (name, type, members, JIT policy)
-- Workload Identity Federation requirements for Operator groups
+- Workload Identity Federation requirements for `Role("operator")` groups
 - JIT policy overrides (from `jit_overrides` in tenant files)
 - Sector and tier scope for each group
 
 Validate the definitions before applying:
-- No human members in Operator groups
+- No human members in `Role("operator")` groups
 - No nested groups in member lists (individuals only)
 - All required fields present
 
@@ -88,7 +88,7 @@ For each group in the definition:
    - Add members present in the definition but missing from the group.
    - Remove members present in the group but not in the definition.
    - Log every addition and removal.
-4. **Operator groups**: Verify that Operator groups have zero human members. If any are found, report them and remove them.
+4. **`Role("operator")` groups**: Verify that `Role("operator")` groups have zero human members. If any are found, report them and remove them.
 
 ### Step 3 — Create Role Assignments
 
@@ -96,47 +96,47 @@ Map each group to the correct Azure built-in role and scope, derived from the co
 
 | Group Pattern | Azure Role | Scope |
 |---------------|-----------|-------|
-| `{sector}-{tier}-operator` | `Contributor` | Subscription `({sector}, {tier})` |
-| `{sector}-{tier}-admins` | `Owner` | Subscription `({sector}, {tier})` |
-| `{sector}-{tier}-contributors` | `Contributor` | Subscription `({sector}, {tier})` |
-| `{sector}-{tier}-readers` | `Reader` | Management Group `({sector})` |
-| `{tenant}-{tier}-operator` | `Contributor` | Resource Group `({sector}, {tier}, {region}, {tenant})` |
+| `{sector}-{tier}-operator` | `Role("contributor")` | Subscription `(sector, tier)` |
+| `{sector}-{tier}-admins` | `Owner` | Subscription `(sector, tier)` |
+| `{sector}-{tier}-contributors` | `Role("contributor")` | Subscription `(sector, tier)` |
+| `{sector}-{tier}-readers` | `Role("reader")` | Management Group `({sector})` |
+| `{tenant}-{tier}-operator` | `Role("contributor")` | Resource Group `(sector, tier, region, tenant)` |
 | `{tenant}-{tier}-admins` | `Owner` | Resource Group(s) for tenant |
-| `{tenant}-{tier}-contributors` | `Contributor` | Resource Group(s) for tenant |
-| `{tenant}-readers` | `Reader` | Subscription `({sector}, {tier})` for each declared sector |
+| `{tenant}-{tier}-contributors` | `Role("contributor")` | Resource Group(s) for tenant |
+| `{tenant}-readers` | `Role("reader")` | Subscription `(sector, tier)` for each declared sector |
 
 For each role assignment:
 1. Check if it already exists at the target scope.
 2. Create it if missing.
 3. Do not remove role assignments not in the definition without explicit user confirmation — this is a destructive action.
 
-If custom roles are required (e.g., a narrower permission set than `Contributor`), define them via the Azure MCP before creating the assignment. Document any custom role definitions in the output.
+If custom roles are required (e.g., a narrower permission set than `Role("contributor")`), define them via the Azure MCP before creating the assignment. Document any custom role definitions in the output.
 
 ### Step 4 — Configure PIM Eligible Assignments
 
-For every Admin and Live Contributor group (which use JIT escalation), configure PIM:
+For every `Role("admin")` and `Tier("live")` `Role("contributor")` group (which use JIT escalation), configure PIM:
 
 1. Verify the group is PIM-enabled (Security group with `isAssignableToRole: true`).
 2. Create an **eligible assignment** (not an active assignment) for each member declared under `admins` or `contributors`.
 3. Apply the escalation policy from the IAM definition:
-   - **Approval required**: Set to `true` for Live Admin and peer-approval Contributor; `false` for self-approve.
+   - **Approval required**: Set to `true` for `Tier("live")` `Role("admin")` and peer-approval `Role("contributor")`; `false` for self-approve.
    - **Maximum duration**: Set from `max_duration_hours` in the definition.
-   - **Justification required**: Always `true` for Live tier.
-   - **MFA required**: Enable for Live Admin roles.
-4. For Sandbox Contributor (self-approve, no justification), PIM eligible assignments are still recommended — but the activation policy can be permissive.
+   - **Justification required**: Always `true` for `Tier("live")`.
+   - **MFA required**: Enable for `Tier("live")` `Role("admin")` roles.
+4. For `Tier("sandbox")` `Role("contributor")` (self-approve, no justification), PIM eligible assignments are still recommended — but the activation policy can be permissive.
 
 Report the PIM assignment state after configuration.
 
 ### Step 5 — Configure Workload Identity Federation
 
-For each Operator group's Workload Identity definition:
+For each `Role("operator")` group's Workload Identity definition:
 
-1. Locate or create the **App Registration** or **Managed Identity** that represents the Operator.
+1. Locate or create the **App Registration** or **Managed Identity** that represents the `Role("operator")`.
 2. Add a Federated Identity Credential using the declared `issuer`, `subject`, and `audience`.
-3. Assign the Operator group's role assignment to this App Registration or Managed Identity (not to a human user).
+3. Assign the `Role("operator")` group's role assignment to this App Registration or Managed Identity (not to a human user).
 4. Verify the federation claim conditions are as narrow as declared — warn if the subject contains a wildcard.
 
-Do not create or store client secrets. If a client secret is found on an Operator identity, report it as a security finding.
+Do not create or store client secrets. If a client secret is found on an `Role("operator")` identity, report it as a security finding.
 
 ### Step 6 — Report Drift and Changes
 
@@ -148,7 +148,7 @@ After applying changes, produce a summary:
 - PIM assignments configured / already existed
 - Workload Identity Federation credentials created / already existed
 - Any items skipped with reason
-- Any security findings (human members in Operator groups, client secrets, wildcard subjects)
+- Any security findings (human members in `Role("operator")` groups, client secrets, wildcard subjects)
 
 If running in dry-run mode, produce this report without making any changes, and ask for confirmation before proceeding.
 
@@ -156,7 +156,7 @@ If running in dry-run mode, produce this report without making any changes, and 
 
 Produce a Markdown report named `azure-iam-report.md`:
 
-```markdown
+``markdown
 # Azure IAM Sync Report
 
 **Date**: [timestamp]
@@ -174,8 +174,8 @@ Produce a Markdown report named `azure-iam-report.md`:
 
 | Group | Role | Scope | Status |
 |-------|------|-------|--------|
-| platform-sandbox-operator | Contributor | /subscriptions/platform-sandbox | created |
-| payments-readers | Reader | /subscriptions/ecommerce-live | exists |
+| platform-sandbox-operator | `Role("contributor")` | /subscriptions/platform-sandbox | created |
+| payments-readers | `Role("reader")` | /subscriptions/ecommerce-live | exists |
 
 ## PIM Eligible Assignments
 
@@ -185,25 +185,25 @@ Produce a Markdown report named `azure-iam-report.md`:
 
 ## Workload Identity Federation
 
-| Operator Group | App Registration | Subject | Status |
+| `Role("operator")` Group | App Registration | Subject | Status |
 |----------------|-----------------|---------|--------|
 | payments-live-operator | payments-live-runner | repo:mountainlab/payments-service:environment:live | created |
 
 ## Security Findings
 
-[List any violations: human members in Operator groups, client secrets found, wildcard subjects, etc.]
+[List any violations: human members in `Role("operator")` groups, client secrets found, wildcard subjects, etc.]
 
 ## Open Items
 
 [Anything that could not be applied automatically and requires manual action]
-```
+``
 
 ## Principles to Apply
 
 - **Idempotent by design**: Always check current state before making changes. Creating an existing resource is a no-op, not an error.
 - **Drift detection before destruction**: Never remove role assignments or group memberships without first presenting the diff to the user and receiving confirmation.
-- **Workload Identity over secrets**: If a client secret is found on an Operator identity, treat it as a security finding and recommend rotating to Workload Identity.
-- **PIM over standing access**: Admin and Live Contributor groups must use PIM eligible assignments, not active assignments.
+- **Workload Identity over secrets**: If a client secret is found on an `Role("operator")` identity, treat it as a security finding and recommend rotating to Workload Identity.
+- **PIM over standing access**: `Role("admin")` and `Tier("live")` `Role("contributor")` groups must use PIM eligible assignments, not active assignments.
 - **Narrow trust conditions**: Warn on any Workload Identity subject that uses a wildcard. Recommend scoping to specific repositories, branches, or environments.
 - **Tags are metadata**: Azure resource tags are used for cost attribution and IaC references. Do not use ABAC (attribute-based access control on tags) for access management.
 

@@ -118,11 +118,11 @@ Organization Policies constrain what can be configured within the GCP resource h
 **At Sector Folder level**:
 - `constraints/gcp.resourceLocations` — restrict resource creation to declared regions
 
-**At Live Tier Folder level**:
+**At `Tier("live")` Folder level**:
 - `constraints/compute.requireShieldedVm` — require Shielded VM on all Compute Engine instances
 - `constraints/sql.restrictPublicIp` — deny public IP assignment to Cloud SQL instances
 
-**Sandbox Tier** — more permissive; omit compute security constraints to allow faster iteration.
+**`Tier("sandbox")`** — more permissive; omit compute security constraints to allow faster iteration.
 
 For each constraint:
 1. Check whether the policy is already set at the target resource scope.

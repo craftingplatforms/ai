@@ -32,11 +32,11 @@ Implementation
 
 Apply the IAM definitions from `core-iam.yaml` and/or one or more `tenants/{name}.yaml` files to AWS. Ensure that:
 
-1. IAM roles for Operator (non-human) identities exist in the correct accounts with the correct trust policies and permission boundaries.
-2. IAM Identity Center permission sets exist for Admin, Contributor, and Reader roles.
+1. IAM roles for `Role("operator")` (non-human) identities exist in the correct accounts with the correct trust policies and permission boundaries.
+2. IAM Identity Center permission sets exist for `Role("admin")`, `Role("contributor")`, and `Role("reader")` roles.
 3. Permission sets are assigned to the correct groups and AWS accounts.
 4. OIDC identity providers are registered for Workload Identity Federation.
-5. No long-lived IAM access keys exist for Operator identities.
+5. No long-lived IAM access keys exist for `Role("operator")` identities.
 
 This skill is **idempotent**: running it multiple times produces the same result.
 
@@ -68,12 +68,12 @@ Read the IAM definition files before proceeding. Do not apply changes based on a
 Read the specified IAM definition files. Extract:
 
 - All groups (name, type, members, JIT policy)
-- Workload Identity Federation conditions for Operator groups
+- Workload Identity Federation conditions for `Role("operator")` groups
 - Sector and tier scope for each group
 - Account IDs from the segmentation mapping
 
 Validate the definitions:
-- No human members in Operator groups
+- No human members in `Role("operator")` groups
 - No nested groups in member lists
 - All Workload Identity issuers reference OIDC-compatible endpoints
 
@@ -81,13 +81,13 @@ Report validation errors and stop. Do not apply changes against an invalid defin
 
 ### Step 2 — Register OIDC Identity Providers
 
-For each unique Workload Identity `issuer` referenced across all Operator groups:
+For each unique Workload Identity `issuer` referenced across all `Role("operator")` groups:
 
 1. Check whether an OIDC provider with this issuer URL already exists in the relevant account(s).
 2. If missing, create it using the AWS MCP. Fetch the TLS thumbprint from the issuer's well-known configuration endpoint.
 3. Verify the registered thumbprint is current — OIDC provider thumbprints can expire.
 
-Register the OIDC provider in each account where Operator roles will be created.
+Register the OIDC provider in each account where `Role("operator")` roles will be created.
 
 ### Step 3 — Create IAM Roles for Operators
 
@@ -99,12 +99,12 @@ For each `{sector}-{tier}-operator` and `{tenant}-{tier}-operator` group:
    - **Trust policy**: `sts:AssumeRoleWithWebIdentity`, restricted to the declared OIDC issuer, subject, and audience claims. Use `StringEquals` conditions for subject and audience — never `StringLike` with wildcards.
    - **Permission boundary**: Attach a permission boundary that limits the role to the resource scope of its coordinate (e.g., resources tagged or named with the sector/tier/tenant prefix). This prevents a compromised runner from affecting resources outside its scope.
    - **Managed policies**: Attach the appropriate AWS managed policy for the access level:
-     - Operator: `PowerUserAccess` with a permission boundary, or a custom policy scoped to the resources the pipeline manages.
+     - `Role("operator")`: `PowerUserAccess` with a permission boundary, or a custom policy scoped to the resources the pipeline manages.
 4. Verify no access keys exist on the role. If found, report as a security finding.
 
 ### Step 4 — Create IAM Identity Center Permission Sets
 
-IAM Identity Center permission sets represent the human-facing roles (Admin, Contributor, Reader). Create one permission set per role type:
+IAM Identity Center permission sets represent the human-facing roles (`Role("admin")`, `Role("contributor")`, Reader). Create one permission set per role type:
 
 | Permission Set Name | Managed Policy | Session Duration |
 |--------------------|----------------|-----------------|
@@ -118,9 +118,9 @@ IAM Identity Center permission sets represent the human-facing roles (Admin, Con
 For each permission set:
 1. Check whether it exists in IAM Identity Center.
 2. Create it if missing, with the correct session duration and inline/managed policies.
-3. For Admin and Live Contributor sets, configure the session duration to match the JIT window defined in the IAM definition.
+3. For `Role("admin")` and `Tier("live")` `Role("contributor")` sets, configure the session duration to match the JIT window defined in the IAM definition.
 
-Prefer AWS managed policies where they fit. Use inline policies only when the scope must be narrowed further (e.g., restricting a Contributor to resources within the tenant's account only).
+Prefer AWS managed policies where they fit. Use inline policies only when the scope must be narrowed further (e.g., restricting a `Role("contributor")` to resources within the tenant's account only).
 
 ### Step 5 — Create Account Assignments
 
@@ -151,11 +151,11 @@ If the corporate IdP is federated via SCIM, groups are synced automatically. Ref
 
 AWS IAM Identity Center does not have a native JIT approval workflow equivalent to Azure PIM. Options:
 
-- **Service Control Policies (SCPs)**: Use SCPs to restrict what Admin permission sets can do without an active session — this is not true JIT but limits standing power.
+- **Service Control Policies (SCPs)**: Use SCPs to restrict what `Role("admin")` permission sets can do without an active session — this is not true JIT but limits standing power.
 - **AWS IAM Identity Center with Approval workflows**: If integrated with an external approval tool (PagerDuty, Slack workflows, Teleport), document the integration point.
 - **Teleport**: If Teleport is in use, record that it handles JIT approval at the access request level, and that IAM Identity Center permission sets define the ceiling of what can be requested.
 
-For each Admin and Live Contributor group, record the JIT strategy in the output report. Flag groups that currently have standing write access to Live accounts and recommend a remediation path.
+For each `Role("admin")` and `Tier("live")` `Role("contributor")` group, record the JIT strategy in the output report. Flag groups that currently have standing write access to `Tier("live")` accounts and recommend a remediation path.
 
 ### Step 7 — Report Drift and Changes
 
@@ -165,7 +165,7 @@ After applying, produce a summary:
 - IAM roles created / already existed / trust policy updated
 - Permission sets created / already existed
 - Account assignments created / already existed
-- Security findings (access keys found, wildcard subjects, standing Live write access)
+- Security findings (access keys found, wildcard subjects, standing `Tier("live")` write access)
 - Items skipped with reason
 
 In dry-run mode, produce the report without making changes and await confirmation.
@@ -174,7 +174,7 @@ In dry-run mode, produce the report without making changes and await confirmatio
 
 Produce a Markdown report named `aws-iam-report.md`:
 
-```markdown
+``markdown
 # AWS IAM Sync Report
 
 **Date**: [timestamp]
@@ -187,7 +187,7 @@ Produce a Markdown report named `aws-iam-report.md`:
 |--------|-----------|--------|
 | https://token.actions.githubusercontent.com | 123456789012 | created |
 
-## IAM Operator Roles
+## IAM `Role("operator")` Roles
 
 | Role Name | Account | Trust Subject | Permission Boundary | Status |
 |-----------|---------|--------------|---------------------|--------|
@@ -207,25 +207,25 @@ Produce a Markdown report named `aws-iam-report.md`:
 
 ## JIT Status
 
-| Group | Strategy | Standing Live Write | Remediation Needed |
+| Group | Strategy | Standing `Tier("live")` Write | Remediation Needed |
 |-------|----------|--------------------|--------------------|
 | payments-live-contributors | session duration only | no | no |
 
 ## Security Findings
 
-[Access keys found, wildcard trust subjects, standing Live write access, etc.]
+[Access keys found, wildcard trust subjects, standing `Tier("live")` write access, etc.]
 
 ## Open Items
 
 [Actions requiring manual intervention or external tooling configuration]
-```
+``
 
 ## Principles to Apply
 
 - **Idempotent by design**: Check state before creating. Existing resources are not errors.
 - **Trust policy precision**: Use `StringEquals` for OIDC subject and audience claims. Warn on any wildcard. A compromised trust policy can grant arbitrary runners access to production.
-- **Permission boundaries are required for Operators**: An Operator with `PowerUserAccess` and no boundary can escalate privileges. Always attach a boundary scoped to the tenant's resource prefix.
-- **No access keys for Operators**: Access keys on Operator identities defeat the purpose of Workload Identity. Treat any found key as a security incident.
+- **Permission boundaries are required for Operators**: An `Role("operator")` with `PowerUserAccess` and no boundary can escalate privileges. Always attach a boundary scoped to the tenant's resource prefix.
+- **No access keys for Operators**: Access keys on `Role("operator")` identities defeat the purpose of Workload Identity. Treat any found key as a security incident.
 - **Session duration is your JIT lever**: AWS Identity Center's session duration is the primary time-bound control. Set it conservatively; developers can re-escalate if the window closes.
 - **SCPs enforce, permission sets grant**: Structure SCPs at the OU level to deny sensitive operations (e.g., disabling CloudTrail, modifying billing settings) regardless of what permission sets allow.
 

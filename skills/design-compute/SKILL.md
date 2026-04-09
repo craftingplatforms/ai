@@ -182,8 +182,8 @@ Produce a Markdown document named `compute-design.md`:
 
 | Cluster Name | Coordinate | Provider | Network Spoke | Multi-Tenancy Model |
 |-------------|-----------|----------|--------------|---------------------|
-| k8s-ecommerce-live-eu01 | ("ecommerce", "live", "eu01) | AKS | vnet-ecommerce-live-eu01 | Pool (all tenants) |
-| k8s-payments-live-eu01 | (ecommerce", "live, eu01, payments") | AKS | vnet-ecommerce-live-eu01 | Silo (PCI scope) |
+| k8s-ecommerce-live-eu01 | ("ecommerce", "live", "eu01", _) | AKS | vnet-ecommerce-live-eu01 | Pool (all tenants) |
+| k8s-payments-live-eu01 | ("ecommerce", "live", "eu01", "payments") | AKS | vnet-ecommerce-live-eu01 | Silo (PCI scope) |
 
 ## Node Pools
 

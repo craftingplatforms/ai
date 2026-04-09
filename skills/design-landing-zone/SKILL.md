@@ -197,10 +197,10 @@ Produce a Markdown document named `landing-zone-design.md`:
 
 ## Guardrails Summary
 
-### Sandbox Tier
+### `Tier("sandbox")`
 - [List of controls]
 
-### Live Tier
+### `Tier("live")`
 - [List of controls]
 
 ## Operational Assessment

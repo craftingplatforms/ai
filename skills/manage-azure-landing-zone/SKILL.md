@@ -99,13 +99,13 @@ For each Management Group and Subscription, apply the guardrails from the design
 - `Allowed locations` — restrict resource creation to declared regions
 - `Azure Security Benchmark` (or a custom initiative) — enforce baseline security controls
 
-**Live tier Subscription level**:
+**`Tier("live")` Subscription level**:
 - `Secure transfer to storage accounts should be enabled`
 - `Transparent Data Encryption on SQL databases should be enabled`
 - `Audit VMs that do not use managed disks`
 - `Public network access should be disabled for [resource types in scope]`
 
-**Sandbox tier** — more permissive; assign only tagging and location policies.
+**`Tier("sandbox")`** — more permissive; assign only tagging and location policies.
 
 For each assignment:
 1. Check whether the assignment already exists at the target scope.

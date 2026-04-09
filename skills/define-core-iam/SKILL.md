@@ -3,7 +3,7 @@ name: define-core-iam
 description: >
   Define the core IAM groups and roles for the platform team itself — the groups that govern
   access to platform-owned sectors (e.g., Platform, Security). Produces a machine-readable
-  IAM definition document covering Operator, Admin, Contributor, and Reader groups per
+  IAM definition document covering `Role("operator")`, `Role("admin")`, `Role("contributor")`, and `Role("reader")` groups per
   (Sector, Tier) combination, with JIT escalation policies and Workload Identity requirements.
   Use before provisioning cloud IAM resources or configuring a JIT tool.
 license: Apache-2.0
@@ -37,11 +37,11 @@ When writing configurations or documentation, you **MUST** strictly adhere to th
 Before proceeding, ask the user (or infer from context):
 
 - **Segmentation design**: Which Sectors exist? Which Tiers? (Ideally, import the output of the `design-segmentation` skill.)
-- **Platform sectors in scope**: Typically `Platform` (CI/CD, monitoring, identity tooling) and optionally `Security` (SIEM, log archives, audit systems). Confirm which are present.
+- **`Sector("platform")`s in scope**: Typically `Platform` (CI/CD, monitoring, identity tooling) and optionally `Security` (SIEM, log archives, audit systems). Confirm which are present.
 - **Cloud provider(s)**: AWS, Azure, GCP, or multi-cloud. Affects naming conventions and JIT tool references.
 - **Identity Provider**: Microsoft Entra ID, Okta, Google Workspace, or other. Groups will be created here.
-- **CI/CD system**: GitHub Actions, GitLab CI, Azure Pipelines, or other. Determines the Workload Identity Federation trust anchor for Operator roles.
-- **Platform team members**: List of individuals with their intended role (Admin, Contributor, Reader). At minimum, identify who holds Admin access.
+- **CI/CD system**: GitHub Actions, GitLab CI, Azure Pipelines, or other. Determines the Workload Identity Federation trust anchor for `Role("operator")` roles.
+- **platform team members**: List of individuals with their intended role (`Role("admin")`, `Role("contributor")`, Reader). At minimum, identify who holds `Role("admin")` access.
 - **JIT tooling**: Azure PIM, AWS IAM Identity Center, Teleport, or none yet. Determines how escalation policies are expressed.
 
 If the user cannot answer all questions, proceed with available information and note assumptions explicitly in the output.
@@ -54,12 +54,12 @@ For each platform-owned sector and each tier, derive the standard four groups fr
 
 | Group Name Pattern | Role | Target | Membership Policy |
 |--------------------|------|--------|-------------------|
-| `{sector}-{tier}-operator` | Operator | Non-human | CI/CD runner identity only — no human members |
-| `{sector}-{tier}-admins` | Admin | Human | JIT-only. Justification required. Approval may be required for Live. |
-| `{sector}-{tier}-contributors` | Contributor | Human | JIT for Live. Standing in Sandbox for platform engineers. |
-| `{sector}-{tier}-readers` | Reader | Human | Standing access — granted to all platform team members |
+| `{sector}-{tier}-operator` | `Role("operator")` | Non-human | CI/CD runner identity only — no human members |
+| `{sector}-{tier}-admins` | `Role("admin")` | Human | JIT-only. Justification required. Approval may be required for `Tier("live")`. |
+| `{sector}-{tier}-contributors` | `Role("contributor")` | Human | JIT for `Tier("live")`. Standing in `Tier("sandbox")` for platform engineers. |
+| `{sector}-{tier}-readers` | `Role("reader")` | Human | Standing access — granted to all platform team members |
 
-Apply this pattern to each `(Sector, Tier)` combination. Example output for a `Platform` sector with `Sandbox` and `Live` tiers:
+Apply this pattern to each `(Sector, Tier)` combination. Example output for a `Sector("platform")` with `Tier("sandbox")` and `Tier("live")`:
 
 - `platform-sandbox-operator`
 - `platform-sandbox-admins`
@@ -70,9 +70,9 @@ Apply this pattern to each `(Sector, Tier)` combination. Example output for a `P
 - `platform-live-contributors`
 - `platform-live-readers`
 
-If a `Security` sector exists, generate the equivalent set. Security sector Live groups should have stricter escalation policies — Admin access requires two-party approval.
+If a `Sector("security")` exists, generate the equivalent set. `Sector("security")` `Tier("live")` groups should have stricter escalation policies — `Role("admin")` access requires two-party approval.
 
-### Step 2 — Define Operator Identity Requirements
+### Step 2 — Define `Role("operator")` Identity Requirements
 
 For each `{sector}-{tier}-operator` group, define the Workload Identity Federation trust policy:
 
@@ -85,36 +85,36 @@ Document the claim conditions that will be used in the cloud trust policy (subje
 
 ### Step 3 — Define JIT Escalation Policies
 
-For each Admin and Contributor group, define the escalation policy:
+For each `Role("admin")` and `Role("contributor")` group, define the escalation policy:
 
-- **Eligible members**: Who can request activation? (List individuals or reference the Reader group.)
-- **Activation method**: Self-approval, peer approval, or automated (for Sandbox Contributor).
-- **Maximum session duration**: Typically 4 hours for Contributor, 2 hours for Admin.
-- **Justification requirement**: Always required for Live tier. Optional for Sandbox.
+- **Eligible members**: Who can request activation? (List individuals or reference the `Role("reader")` group.)
+- **Activation method**: Self-approval, peer approval, or automated (for `Tier("sandbox")` `Role("contributor")`).
+- **Maximum session duration**: Typically 4 hours for `Role("contributor")`, 2 hours for `Role("admin")`.
+- **Justification requirement**: Always required for `Tier("live")`. Optional for `Tier("sandbox")`.
 - **Approval requirement**:
-  - Sandbox Contributor: self-approve
-  - Live Contributor: self-approve with justification
-  - Sandbox Admin: peer approval
-  - Live Admin: peer approval + mandatory justification
-  - Security sector Live Admin: two-party approval
+  - `Tier("sandbox")` `Role("contributor")`: self-approve
+  - `Tier("live")` `Role("contributor")`: self-approve with justification
+  - `Tier("sandbox")` `Role("admin")`: peer approval
+  - `Tier("live")` `Role("admin")`: peer approval + mandatory justification
+  - `Sector("security")` `Tier("live")` `Role("admin")`: two-party approval
 
 Map these policies to the JIT tooling in use (Azure PIM eligible assignments, AWS Identity Center permission sets, Teleport access requests).
 
 ### Step 4 — Define Initial Membership
 
-For each human-facing group (Admin, Contributor, Reader), record the initial members:
+For each human-facing group (`Role("admin")`, `Role("contributor")`, Reader), record the initial members:
 
-- **Readers**: All platform team members receive standing Reader access to all platform sectors and tiers.
-- **Contributors**: Platform engineers actively deploying or managing the platform. Eligible for JIT Contributor escalation.
-- **Admins**: Senior platform engineers and the engineering manager. Eligible for JIT Admin escalation.
+- **Readers**: All platform team members receive standing `Role("reader")` access to all platform sectors and tiers.
+- **Contributors**: Platform engineers actively deploying or managing the platform. Eligible for JIT `Role("contributor")` escalation.
+- **Admins**: Senior platform engineers and the engineering manager. Eligible for JIT `Role("admin")` escalation.
 
 Always list individuals by email or username — never add a group to another group. This preserves the audit trail and makes least-privilege enforceable.
 
 ### Step 5 — Define Cross-Sector Read Access
 
-The platform sector's monitoring and observability tooling often requires read access to business sector resources (e.g., reading metrics from the ECommerce sector). Define any cross-sector read grants:
+The platform sector's monitoring and observability tooling often requires read access to business sector resources (e.g., reading metrics from the `Sector("ecommerce")`). Define any cross-sector read grants:
 
-- Which platform groups need Reader access outside their own sector?
+- Which platform groups need `Role("reader")` access outside their own sector?
 - In which sectors and tiers?
 - Is this standing access or JIT?
 
@@ -124,10 +124,10 @@ Document these as explicit grants — do not assume cross-sector access is impli
 
 Review the draft against the core IAM principles:
 
-- [ ] No human is a member of any Operator group
-- [ ] No standing write access to any Live tier (Contributor and Admin are JIT-only in Live)
+- [ ] No human is a member of any `Role("operator")` group
+- [ ] No standing write access to any `Tier("live")` (`Role("contributor")` and `Role("admin")` are JIT-only in Live)
 - [ ] All groups have a named owner responsible for membership review
-- [ ] Operator trust conditions are scoped to the minimum necessary CI/CD identity
+- [ ] `Role("operator")` trust conditions are scoped to the minimum necessary CI/CD identity
 - [ ] Static API keys or secrets are not referenced anywhere — Workload Identity Federation only
 - [ ] Tags and labels are not used as access control mechanisms
 
@@ -139,7 +139,7 @@ Present the complete group matrix to the user. Ask:
 
 - Are there platform team members missing from the initial membership?
 - Are the JIT session durations appropriate for this team's operational cadence?
-- Does the Operator trust condition correctly reflect the CI/CD system in use?
+- Does the `Role("operator")` trust condition correctly reflect the CI/CD system in use?
 - Are there any cross-sector access requirements not captured?
 
 Iterate until the user is satisfied, then produce the final document.
@@ -148,7 +148,7 @@ Iterate until the user is satisfied, then produce the final document.
 
 Produce a YAML document named `core-iam.yaml` with this structure:
 
-```yaml
+``yaml
 # core-iam.yaml
 # Core IAM definition for platform-owned sectors.
 # Input for: manage-azure-iam, manage-aws-iam, manage-gcp-iam, manage-k8s-iam
@@ -246,16 +246,16 @@ cross_sector_reads:
     target_sector: ecommerce
     target_tier: live
     reason: Observability tooling reads metrics and logs from business workloads
-```
+``
 
 Accompany the YAML with a brief human-readable summary (a Markdown section) explaining the group matrix, the escalation policy, and any assumptions made.
 
 ## Principles to Apply
 
 - **Identity vs. Access**: This skill defines access only — group membership and role scope. It does not manage users in the IdP. That is Corporate IT's responsibility.
-- **Reader by default**: Every platform team member receives standing Reader access. Write access is never standing in the Live tier.
-- **Operator groups are non-human**: If a human is listed in an Operator group, it is a misconfiguration, not a feature.
-- **Workload Identity over static secrets**: Operator identities must use federated tokens. Long-lived keys are an anti-pattern.
+- **`Role("reader")` by default**: Every platform team member receives standing `Role("reader")` access. Write access is never standing in the `Tier("live")`.
+- **`Role("operator")` groups are non-human**: If a human is listed in an `Role("operator")` group, it is a misconfiguration, not a feature.
+- **Workload Identity over static secrets**: `Role("operator")` identities must use federated tokens. Long-lived keys are an anti-pattern.
 - **Always individual membership**: Never add a group as a member of another group. List individuals.
 - **Tags are not access control**: Do not reference tag-based policies for group membership or access decisions.
 

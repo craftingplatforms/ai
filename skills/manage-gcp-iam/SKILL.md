@@ -25,7 +25,7 @@ Implementation
   - `iam.serviceAccounts.create`, `iam.serviceAccounts.setIamPolicy`
   - `iam.roles.create`, `iam.roles.update` (if custom roles are needed)
   - `iam.workloadIdentityPools.create`, `iam.workloadIdentityPools.update`
-  - Google Workspace / Cloud Identity: group read/write access via Admin SDK (if managing groups)
+  - Google Workspace / Cloud Identity: group read/write access via `Role("admin")` SDK (if managing groups)
 - GCP Organization, Folder, and Project structure must already exist (output of the cloud structure mapping from `design-segmentation`).
 - Cloud Identity or Google Workspace must be the identity provider.
 
@@ -35,8 +35,8 @@ Apply the IAM definitions from `core-iam.yaml` and/or one or more `tenants/{name
 
 1. Cloud Identity groups exist for each declared group.
 2. IAM bindings at the correct resource scope (Organization, Folder, or Project) map groups to roles.
-3. Service accounts for Operator identities exist with Workload Identity Federation pools and providers configured.
-4. No service account keys exist for Operator identities.
+3. Service accounts for `Role("operator")` identities exist with Workload Identity Federation pools and providers configured.
+4. No service account keys exist for `Role("operator")` identities.
 5. IAM conditions are used where available to enforce time-bound or context-aware access.
 
 This skill is **idempotent**: running it multiple times produces the same result.
@@ -55,7 +55,7 @@ Before proceeding, ask the user (or infer from context):
 
 - **IAM definition files**: Path(s) to `core-iam.yaml` and/or `tenants/{name}.yaml`. Read these files first.
 - **GCP resource structure**: Organization ID, Folder IDs, and Project IDs for each coordinate. Derive from the segmentation design or ask the user.
-- **Google Workspace / Cloud Identity domain**: Used for group email addresses and Admin SDK calls.
+- **Google Workspace / Cloud Identity domain**: Used for group email addresses and `Role("admin")` SDK calls.
 - **Workload Identity Pool name**: The pool used for external identity federation (create one per `(Sector, Tier)` or one global pool — discuss trade-offs with the user).
 - **External IdP integration**: Is the corporate IdP (Entra ID, Okta) federated into Cloud Identity via SAML/SCIM? If yes, groups may already be synced. If no, groups must be managed in Cloud Identity directly.
 - **Scope of this run**: Core IAM only, specific tenants, or all tenants?
@@ -70,12 +70,12 @@ Read the IAM definition files before proceeding.
 Read the specified IAM definition files. Extract:
 
 - All groups (name, type, members, JIT policy)
-- Workload Identity Federation conditions for Operator groups
+- Workload Identity Federation conditions for `Role("operator")` groups
 - Sector and tier scope for each group
 - Project and Folder IDs from the segmentation mapping
 
 Validate the definitions:
-- No human members in Operator groups
+- No human members in `Role("operator")` groups
 - No nested groups in member lists
 - All Workload Identity issuers are OIDC-compatible
 
@@ -88,7 +88,7 @@ For each group declared in the IAM definition:
 1. Check whether a Cloud Identity group with the matching name/email exists.
 2. Create it if missing (e.g., `payments-live-admins@mountainlab.io`).
 3. Reconcile membership: add declared members, remove undeclared members, log every change.
-4. Operator groups: verify zero human members. Report and remove any found.
+4. `Role("operator")` groups: verify zero human members. Report and remove any found.
 
 If groups are synced via SCIM from an external IdP, skip creation — only verify existence and log a note that membership is managed externally.
 
@@ -98,9 +98,9 @@ Map each group to the correct GCP predefined role and resource scope:
 
 | Group Pattern | GCP Role | Scope |
 |---------------|----------|-------|
-| `{sector}-{tier}-operator` | `roles/editor` + permission boundary via Org Policy | Project `({sector}, {tier})` |
-| `{sector}-{tier}-admins` | `roles/owner` | Project `({sector}, {tier})` — via IAM Condition for time-bound access |
-| `{sector}-{tier}-contributors` | `roles/editor` | Project `({sector}, {tier})` |
+| `{sector}-{tier}-operator` | `roles/editor` + permission boundary via Org Policy | Project `(sector, tier)` |
+| `{sector}-{tier}-admins` | `roles/owner` | Project `(sector, tier)` — via IAM Condition for time-bound access |
+| `{sector}-{tier}-contributors` | `roles/editor` | Project `(sector, tier)` |
 | `{sector}-{tier}-readers` | `roles/viewer` | Folder `({sector})` |
 | `{tenant}-{tier}-operator` | Service Account binding | Project `({sector}, {tier}, _, {tenant})` |
 | `{tenant}-{tier}-admins` | `roles/owner` (scoped) | Project for tenant |
@@ -113,13 +113,13 @@ For each binding:
 3. Add missing bindings in a single `setIamPolicy` call per resource (do not issue one API call per member — batch the policy update to avoid race conditions).
 4. Do not remove existing bindings not in the definition without explicit user confirmation.
 
-**IAM Conditions for Admin roles**: Where available, use IAM conditions to restrict Admin bindings to a time window or require specific resource-level access justification (Access Approval). Document this in the output.
+**IAM Conditions for `Role("admin")` roles**: Where available, use IAM conditions to restrict `Role("admin")` bindings to a time window or require specific resource-level access justification (Access Approval). Document this in the output.
 
 **Custom roles**: If the predefined roles (`editor`, `viewer`) are too broad for the tenant's use case, define a custom role with only the permissions the tenant's workloads require. Create it at the Project or Organization level as appropriate. Prefer Organization-level custom roles for reuse across projects.
 
 ### Step 4 — Configure Workload Identity Federation
 
-For each Operator group's Workload Identity definition:
+For each `Role("operator")` group's Workload Identity definition:
 
 1. **Workload Identity Pool**: Check whether a pool exists for the sector/tier or create one. Naming convention: `{sector}-{tier}`.
 2. **OIDC Provider**: Add a provider to the pool for each unique issuer. Set the allowed audiences from the `audience` field in the definition.
@@ -128,7 +128,7 @@ For each Operator group's Workload Identity definition:
    - `attribute.repository` ← `assertion.repository` (for GitHub Actions)
    - `attribute.ref` ← `assertion.ref` (for branch-based conditions)
 4. **Attribute conditions**: Set a CEL expression to restrict which external identities can impersonate the service account. Do not allow unrestricted pool-wide impersonation.
-5. **Service Account**: Create a service account for the Operator (e.g., `payments-live-operator@{project}.iam.gserviceaccount.com`).
+5. **Service Account**: Create a service account for the `Role("operator")` (e.g., `payments-live-operator@{project}.iam.gserviceaccount.com`).
 6. **Impersonation binding**: Grant `roles/iam.workloadIdentityUser` to the pool/provider/subject combination on the service account — this is the binding that allows the external identity to impersonate the account.
 7. **No keys**: Verify no service account keys exist. Report any found as a security finding.
 
@@ -146,12 +146,12 @@ Check whether these policies are already set at the Organization or Folder level
 
 GCP does not have a built-in JIT tool equivalent to Azure PIM. Available options:
 
-- **IAM Conditions with expiry**: IAM bindings can include a `request.time` condition to make them automatically expire. Use this for time-bound Admin access.
-- **Access Approval**: For Admin roles on sensitive projects, enable Access Approval to require manual approval before the access is granted at the API level.
+- **IAM Conditions with expiry**: IAM bindings can include a `request.time` condition to make them automatically expire. Use this for time-bound `Role("admin")` access.
+- **Access Approval**: For `Role("admin")` roles on sensitive projects, enable Access Approval to require manual approval before the access is granted at the API level.
 - **Privileged Access Manager (PAM)**: GCP's Privileged Access Manager (if available in the organization's region) provides JIT grant workflows similar to Azure PIM. Check availability and configure if present.
 - **External tools (Teleport)**: If Teleport is in use, record that it handles JIT approval and that GCP bindings define the ceiling.
 
-For each Admin and Live Contributor group, document the JIT strategy in the output. Flag groups with permanent `roles/owner` bindings on Live projects and recommend a remediation.
+For each `Role("admin")` and `Tier("live")` `Role("contributor")` group, document the JIT strategy in the output. Flag groups with permanent `roles/owner` bindings on `Tier("live")` projects and recommend a remediation.
 
 ### Step 7 — Report Drift and Changes
 
@@ -171,7 +171,7 @@ In dry-run mode, produce the report without making changes.
 
 Produce a Markdown report named `gcp-iam-report.md`:
 
-```markdown
+``markdown
 # GCP IAM Sync Report
 
 **Date**: [timestamp]
@@ -205,7 +205,7 @@ Produce a Markdown report named `gcp-iam-report.md`:
 
 ## JIT Status
 
-| Group | Strategy | Standing Live Write | Remediation Needed |
+| Group | Strategy | Standing `Tier("live")` Write | Remediation Needed |
 |-------|----------|--------------------|--------------------|
 | payments-live-admins | IAM condition expiry | no | no |
 
@@ -216,7 +216,7 @@ Produce a Markdown report named `gcp-iam-report.md`:
 ## Open Items
 
 [Actions requiring manual intervention or external tooling configuration]
-```
+``
 
 ## Principles to Apply
 
@@ -224,8 +224,8 @@ Produce a Markdown report named `gcp-iam-report.md`:
 - **No service account keys**: Keys on service accounts defeat Workload Identity. Any key found is a security finding.
 - **Attribute conditions are mandatory**: A Workload Identity binding without an attribute condition allows any identity in the pool to impersonate the service account. Always set a CEL expression.
 - **Organization Policies complement IAM**: IAM is additive and delegation-based. Organization Policies are the enforcement floor — they prevent even IAM admins from creating dangerous configurations.
-- **Prefer folder-level reader bindings**: Granting Reader at the Folder level cascades to all projects below it. This is the correct pattern for cross-project read access (e.g., a monitoring tool reading all projects in a sector).
-- **JIT via IAM conditions or PAM**: Permanent `roles/owner` on Live projects is an anti-pattern. Use expiring conditions or PAM to enforce time-bound access.
+- **Prefer folder-level reader bindings**: Granting `Role("reader")` at the Folder level cascades to all projects below it. This is the correct pattern for cross-project read access (e.g., a monitoring tool reading all projects in a sector).
+- **JIT via IAM conditions or PAM**: Permanent `roles/owner` on `Tier("live")` projects is an anti-pattern. Use expiring conditions or PAM to enforce time-bound access.
 
 ## Related Chapter(s)
 

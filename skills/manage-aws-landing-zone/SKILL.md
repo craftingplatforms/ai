@@ -113,12 +113,12 @@ Service Control Policies (SCPs) are permission guardrails applied at the OU leve
 - `AllowedRegions` — restrict `ec2:*`, `rds:*`, etc. to declared regions using `aws:RequestedRegion` condition
 - `RequireMandatoryTags` — deny resource creation without mandatory tags (note: tag enforcement via SCPs is complex; alternative is AWS Config rules)
 
-*Live Tier OU*:
+*`Tier("live")` OU*:
 - `DenyPublicS3Buckets` — block `s3:PutBucketPublicAccessBlock` with public access enabled
 - `RequireEncryptionAtRest` — deny unencrypted EBS volumes, RDS instances, S3 buckets
 - `DenyRootUserActions` — deny all actions for the root user except those required for billing
 
-*Sandbox Tier OU*:
+*`Tier("sandbox")` OU*:
 - `AllowedRegions` (same as Sector, but may allow broader regions for experimentation)
 - No encryption-at-rest mandate (to allow faster iteration)
 

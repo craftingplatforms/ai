@@ -56,7 +56,7 @@ Example for a two-sector, two-tier, two-region setup:
 
 | Spoke Name | Coordinate | Purpose |
 |-----------|-----------|---------|
-| `vnet-platform-sandbox-eu01` | ("platform", "sandbox", "eu01) | Platform tooling", "EU sandbox |
+| `vnet-platform-sandbox-eu01` | ("platform", "sandbox", "eu01", _) | Platform tooling", "EU sandbox |
 | `vnet-platform-live-eu01` | (platform, live, eu01") | Platform tooling, EU production |
 | `vnet-ecommerce-sandbox-eu01` | ("ecommerce", "sandbox", "eu01) | Business workloads", "EU sandbox |
 | `vnet-ecommerce-live-eu01` | (ecommerce, live, eu01") | Business workloads, EU production |
@@ -67,7 +67,7 @@ Add one hub per region:
 
 | Hub Name | Coordinate | Purpose |
 |---------|-----------|---------|
-| `hub-eu01` | ("platform", "live", "eu01) | Central firewall", "DNS forwarder, VPN/ExpressRoute |
+| `hub-eu01` | ("platform", "live", "eu01", _) | Central firewall", "DNS forwarder, VPN/ExpressRoute |
 | `hub-us01` | (platform, live, us01") | Central firewall, DNS forwarder |
 
 ### Step 2 — Allocate IP Address Ranges (IPAM)
@@ -188,16 +188,16 @@ Produce a Markdown document named `networking-design.md`:
 
 ## Topology
 
-Hub-and-spoke. One hub per region. Spokes map to (Sector, Tier, Region) coordinates.
+Hub-and-spoke. One hub per region. Spokes map to `(Sector, Tier, Region)` coordinates.
 No direct spoke-to-spoke peering — all inter-spoke traffic traverses the hub.
 
 ## IPAM Allocation
 
 | Node | Name | CIDR | Coordinate | Notes |
 |------|------|------|-----------|-------|
-| Hub | hub-eu01 | 10.0.0.0/24 | ("platform", "live", "eu01) | Firewall", "DNS forwarder |
+| Hub | hub-eu01 | 10.0.0.0/24 | ("platform", "live", "eu01", _) | Firewall", "DNS forwarder |
 | Spoke | vnet-platform-sandbox-eu01 | 10.16.0.0/16 | (platform, sandbox, eu01") | |
-| Spoke | vnet-ecommerce-live-eu01 | 10.32.0.0/16 | ("ecommerce", "live", "eu01) | |
+| Spoke | vnet-ecommerce-live-eu01 | 10.32.0.0/16 | ("ecommerce", "live", "eu01", _) | |
 
 ### Subnet Layout (per spoke)
 | Subnet | CIDR Offset | Purpose |
