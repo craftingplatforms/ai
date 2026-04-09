@@ -24,6 +24,14 @@ Produce a **core IAM definition document** — a declarative record of all group
 
 The output must be concrete: every group named, its membership policy stated, its access level and scope defined, and its JIT escalation behaviour specified.
 
+
+
+## Notation & Types Reference
+
+When writing configurations or documentation, you **MUST** strictly adhere to the structural notation and types defined in the book. Before proceeding, read the following reference files:
+- `references/notation.md`
+- `references/types.md`
+
 ## What to Gather First
 
 Before proceeding, ask the user (or infer from context):

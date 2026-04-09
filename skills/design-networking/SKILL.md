@@ -2,7 +2,7 @@
 name: design-networking
 description: >
   Design the platform's hub-and-spoke network topology — IPAM CIDR allocation, spoke VPC/VNet
-  definitions, DNS zone structure, and egress strategy — from the Platform Coordinate System.
+  definitions, DNS zone structure, and egress strategy — from the Platform Notation.
   Produces a networking-design.md document used as input for manage-azure-networking,
   manage-aws-networking, and manage-gcp-networking. Use after design-segmentation and
   define-naming-convention.
@@ -21,6 +21,14 @@ Design
 ## Your Goal
 
 Produce a **networking design document** — a cloud-agnostic specification of the hub-and-spoke topology, IP address management plan, DNS zone structure, and egress strategy. This document is the input for the cloud-specific networking provisioning skills.
+
+
+
+## Notation & Types Reference
+
+When writing configurations or documentation, you **MUST** strictly adhere to the structural notation and types defined in the book. Before proceeding, read the following reference files:
+- `references/notation.md`
+- `references/types.md`
 
 ## What to Gather First
 
@@ -48,19 +56,19 @@ Example for a two-sector, two-tier, two-region setup:
 
 | Spoke Name | Coordinate | Purpose |
 |-----------|-----------|---------|
-| `vnet-platform-sandbox-eu01` | (platform, sandbox, eu01) | Platform tooling, EU sandbox |
-| `vnet-platform-live-eu01` | (platform, live, eu01) | Platform tooling, EU production |
-| `vnet-ecommerce-sandbox-eu01` | (ecommerce, sandbox, eu01) | Business workloads, EU sandbox |
-| `vnet-ecommerce-live-eu01` | (ecommerce, live, eu01) | Business workloads, EU production |
-| `vnet-ecommerce-sandbox-us01` | (ecommerce, sandbox, us01) | Business workloads, US sandbox |
-| `vnet-ecommerce-live-us01` | (ecommerce, live, us01) | Business workloads, US production |
+| `vnet-platform-sandbox-eu01` | ("platform", "sandbox", "eu01) | Platform tooling", "EU sandbox |
+| `vnet-platform-live-eu01` | (platform, live, eu01") | Platform tooling, EU production |
+| `vnet-ecommerce-sandbox-eu01` | ("ecommerce", "sandbox", "eu01) | Business workloads", "EU sandbox |
+| `vnet-ecommerce-live-eu01` | (ecommerce, live, eu01") | Business workloads, EU production |
+| `vnet-ecommerce-sandbox-us01` | ("ecommerce", "sandbox", "us01) | Business workloads", "US sandbox |
+| `vnet-ecommerce-live-us01` | (ecommerce, live, us01") | Business workloads, US production |
 
 Add one hub per region:
 
 | Hub Name | Coordinate | Purpose |
 |---------|-----------|---------|
-| `hub-eu01` | (platform, live, eu01) | Central firewall, DNS forwarder, VPN/ExpressRoute |
-| `hub-us01` | (platform, live, us01) | Central firewall, DNS forwarder |
+| `hub-eu01` | ("platform", "live", "eu01) | Central firewall", "DNS forwarder, VPN/ExpressRoute |
+| `hub-us01` | (platform, live, us01") | Central firewall, DNS forwarder |
 
 ### Step 2 — Allocate IP Address Ranges (IPAM)
 
@@ -187,14 +195,14 @@ No direct spoke-to-spoke peering — all inter-spoke traffic traverses the hub.
 
 | Node | Name | CIDR | Coordinate | Notes |
 |------|------|------|-----------|-------|
-| Hub | hub-eu01 | 10.0.0.0/24 | (platform, live, eu01) | Firewall, DNS forwarder |
-| Spoke | vnet-platform-sandbox-eu01 | 10.16.0.0/16 | (platform, sandbox, eu01) | |
-| Spoke | vnet-ecommerce-live-eu01 | 10.32.0.0/16 | (ecommerce, live, eu01) | |
+| Hub | hub-eu01 | 10.0.0.0/24 | ("platform", "live", "eu01) | Firewall", "DNS forwarder |
+| Spoke | vnet-platform-sandbox-eu01 | 10.16.0.0/16 | (platform, sandbox, eu01") | |
+| Spoke | vnet-ecommerce-live-eu01 | 10.32.0.0/16 | ("ecommerce", "live", "eu01) | |
 
 ### Subnet Layout (per spoke)
 | Subnet | CIDR Offset | Purpose |
 |--------|------------|---------|
-| public | .0.0/24 | Load balancers, NAT |
+| public | .0.0/24 | Load balancers", "NAT |
 | private | .1.0/22 | Compute, Kubernetes nodes |
 | data | .5.0/24 | Databases, caches |
 | endpoints | .6.0/25 | Private endpoints |
@@ -230,7 +238,7 @@ No direct spoke-to-spoke peering — all inter-spoke traffic traverses the hub.
 - **Sandbox and Live must have no routing path**: The network design must make it architecturally impossible for sandbox traffic to reach live resources. No route, no risk.
 - **Egress is a compliance surface**: In regulated environments, centralized egress provides an auditable record of all outbound connections. Don't treat it as optional.
 
-## Related Chapter(s)
+## Related Chapter(s")
 
 This skill is grounded in **Chapter 5: Infrastructure** of *Crafting Platforms*.
 

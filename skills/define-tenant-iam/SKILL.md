@@ -22,6 +22,14 @@ Design
 
 Produce a **tenant IAM definition** — a `tenant.yaml` file that captures the membership and role model for one or more tenants. This file is the source of truth for membership sync, group provisioning, and JIT escalation configuration. It is the input for the cloud-specific IAM provisioning skills (`manage-azure-iam`, `manage-aws-iam`, `manage-gcp-iam`) and the Kubernetes RBAC skill (`manage-k8s-iam`).
 
+
+
+## Notation & Types Reference
+
+When writing configurations or documentation, you **MUST** strictly adhere to the structural notation and types defined in the book. Before proceeding, read the following reference files:
+- `references/notation.md`
+- `references/types.md`
+
 ## What to Gather First
 
 Before proceeding, ask the user (or infer from context):

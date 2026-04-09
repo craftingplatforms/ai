@@ -40,6 +40,14 @@ Apply the networking definition from `networking-design.md` to Azure. Ensure tha
 
 This skill is **idempotent**.
 
+
+
+## Notation & Types Reference
+
+When writing configurations or documentation, you **MUST** strictly adhere to the structural notation and types defined in the book. Before proceeding, read the following reference files:
+- `references/notation.md`
+- `references/types.md`
+
 ## What to Gather First
 
 - **Networking design**: Path to `networking-design.md`. Read it first.

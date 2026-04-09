@@ -2,7 +2,7 @@
 name: design-segmentation
 description: >
   Design a platform segmentation strategy — defining Sectors, Tiers, Regions, and Tenants —
-  and produce a Platform Coordinate System document tailored to the organization's scale,
+  and produce a Platform Notation document tailored to the organization's scale,
   cloud provider, and regulatory requirements. Use when starting a new platform, formalizing
   an ad-hoc environment structure, or evaluating whether the current segmentation model fits
   the organization's growth stage.
@@ -20,9 +20,17 @@ Design
 
 ## Your Goal
 
-Produce a **segmentation design document** — a structured record of the organization's boundary model: which Sectors exist, how Tiers are defined, which Regions are in scope, and how Tenants are isolated. The document must include a **Platform Coordinate System** (the `(Sector, Tier, Region, Tenant)` formula), a cloud structure mapping, an isolation level recommendation for each dimension, and rationale for every decision.
+Produce a **segmentation design document** — a structured record of the organization's boundary model: which Sectors exist, how Tiers are defined, which Regions are in scope, and how Tenants are isolated. The document must include a **Platform Notation** (the `(Sector, Tier, Region, Tenant)` formula), a cloud structure mapping, an isolation level recommendation for each dimension, and rationale for every decision.
 
 The output should be concrete enough for a platform engineer to begin provisioning cloud accounts, subscriptions, or projects from it.
+
+
+
+## Notation & Types Reference
+
+When writing configurations or documentation, you **MUST** strictly adhere to the structural notation and types defined in the book. Before proceeding, read the following reference files:
+- `references/notation.md`
+- `references/types.md`
 
 ## What to Gather First
 
@@ -46,8 +54,8 @@ If the user cannot answer all questions, proceed with available information and 
 Before recommending a segmentation model, calibrate to the organization's current reality:
 
 - **Startup (Pre-Product Market Fit)**: Minimal segmentation is appropriate. Over-engineering here stalls product development.
-- **Scale-up (Growth Phase)**: Introduce the Platform sector. Add Tenant isolation logically (namespaces, resource groups) as headcount grows. Begin moving critical boundaries up the isolation spectrum.
-- **Enterprise / Heavily Regulated**: Implement all four dimensions with hard physical boundaries. Account-per-(Sector, Tier) at minimum. Microsegmentation within segments. Strict network isolation to satisfy compliance auditors.
+- **Scale-up (Growth Phase)**: Introduce `Sector("platform")`. Add Tenant isolation logically (namespaces, resource groups) as headcount grows. Begin moving critical boundaries up the isolation spectrum.
+- **Enterprise / Heavily Regulated**: Implement all four dimensions with hard physical boundaries. Account-per-`(Sector, Tier)` at minimum. Microsegmentation within segments. Strict network isolation to satisfy compliance auditors.
 
 Document the maturity tier and its implications for scope. A startup does not need the same model as a regulated enterprise — and proposing one for the other is a mistake.
 
@@ -55,7 +63,7 @@ Document the maturity tier and its implications for scope. A startup does not ne
 
 Sectors separate the *engineering platform domain* from the *business domain*. Identify:
 
-- **Engineering sectors**: Internal enablement and platform tooling (CI/CD runners, observability stack, identity management, security tooling). Recommend at least one `Platform` sector. If the organization handles regulated data, recommend a dedicated `Security` sector for log archives, SIEM, and audit systems.
+- **Engineering sectors**: Internal enablement and platform tooling (CI/CD runners, observability stack, identity management, security tooling). Recommend at least one `Sector("platform")`. If the organization handles regulated data, recommend a dedicated `Sector("security")` for log archives, SIEM, and audit systems.
 - **Business sectors**: Workloads that generate revenue. If the company has multiple distinct lines of business (Retail, Finance, Insurance), propose a separate sector per line of business. If there is one product, one business sector is sufficient.
 
 For each sector, specify:
@@ -78,8 +86,8 @@ Tiers separate workloads by criticality and data classification. Do not simply r
 
 Recommend two tiers as the baseline:
 
-- **Sandbox**: Non-production. Synthetic or anonymized data. Engineers have freedom to experiment. Access policies are relaxed. Contains the organization's existing `dev`, `qa`, and `staging`-equivalent environments as logical sub-spaces.
-- **Live**: Production. Real customer data. Strictly controlled access. All changes flow through automated pipelines. Break-glass access only for humans. Contains `staging` (final pre-production validation) and `prod`.
+- **`Tier("sandbox")`**: Non-production. Synthetic or anonymized data. Engineers have freedom to experiment. Access policies are relaxed. Contains the organization's existing `dev`, `qa`, and `staging`-equivalent environments as logical sub-spaces.
+- **`Tier("live")`**: Production. Real customer data. Strictly controlled access. All changes flow through automated pipelines. Break-glass access only for humans. Contains `staging` (final pre-production validation) and `prod`.
 
 If the organization has strict regulatory requirements — PCI-DSS cardholder data environments, HIPAA covered data — propose additional tiers or sub-tiers as warranted and explain why.
 
@@ -139,15 +147,15 @@ Document the isolation level per dimension, the reason for the choice, and any k
 
 ### Step 7 — Define the Coordinate Notation
 
-Summarize the **Platform Coordinate System** as a formula:
+Summarize the **Platform Notation** as a formula:
 
 ```
 (Sector, Tier, Region, Tenant)
 ```
 
 Explain the two special symbols:
-- `*` (wildcard): all values of a dimension — used in policy scope definitions (e.g., a policy at `(ecommerce, live, *, *)` applies to all regions and tenants within that subscription)
-- `_` (ignore): dimension is not relevant for the resource being described (e.g., an AWS Account exists at `(ecommerce, live, _, payments)` — it is tenant-scoped but not region-scoped)
+- `*` (wildcard): all values of a dimension — used in policy scope definitions (e.g., a policy at `("ecommerce", "live", "*", "*")` applies to all regions and tenants within that subscription)
+- `_` (ignore): dimension is not relevant for the resource being described (e.g., an AWS Account exists at `("ecommerce", "live", "_", "payments")` — it is tenant-scoped but not region-scoped)
 
 Provide a naming convention for cloud resources derived from the coordinate. Example: `rg-{tenant}-{region}-{tier}` for Azure Resource Groups, or `{tenant}-{tier}` for AWS Account names. The naming should make the coordinate readable from the resource name alone.
 
@@ -156,9 +164,9 @@ Provide a naming convention for cloud resources derived from the coordinate. Exa
 Briefly address these overlays — they shape how segments are configured without adding new dimensions:
 
 - **Data Classification**: Which coordinate ranges handle Restricted or Confidential data? These may need stricter isolation levels.
-- **Identity Alignment**: Are separate identity tenants or directories needed per Sector or Tier? Sandbox and Live should use separate identity boundaries.
+- **Identity Alignment**: Are separate identity tenants or directories needed per Sector or Tier? `Tier("sandbox")` and `Tier("live")` should use separate identity boundaries.
 - **Cost Attribution**: Which coordinate dimension maps to a billing boundary? Confirm that the cloud structure enables accurate cost attribution per tenant.
-- **CI/CD Pipeline Isolation**: Build runners in Sandbox must not access Live secrets. State the principle and note it will be addressed in the CI/CD chapter.
+- **CI/CD Pipeline Isolation**: Build runners in `Tier("sandbox")` must not access `Tier("live")` secrets. State the principle and note it will be addressed in the CI/CD chapter.
 
 ### Step 9 — Review and Iterate
 
@@ -185,14 +193,14 @@ Produce a single Markdown document named `segmentation-design.md` with this stru
 ## Sectors
 | Sector | Owner | Purpose | Compliance Notes |
 |--------|-------|---------|-----------------|
-| Platform | Platform Team | CI/CD, monitoring, identity | — |
-| ECommerce | Product Teams | Business workloads | PCI-DSS scope if applicable |
+| platform | Platform Team | CI/CD, monitoring, identity | — |
+| ecommerce | Product Teams | Business workloads | PCI-DSS scope if applicable |
 
 ## Tiers
 | Tier | Data Classification | Access Model | Physical Boundary |
 |------|--------------------|--------------|--------------------|
-| Sandbox | Synthetic / Anonymized | Open (engineers) | Separate account/subscription |
-| Live | Confidential / Restricted | Controlled (pipelines + break-glass) | Separate account/subscription |
+| sandbox | Synthetic / Anonymized | Open (engineers) | Separate account/subscription |
+| live | Confidential / Restricted | Controlled (pipelines + break-glass) | Separate account/subscription |
 
 ## Regions
 | Internal Name | Cloud Mapping | Purpose |
@@ -207,13 +215,13 @@ Produce a single Markdown document named `segmentation-design.md` with this stru
 | payments | Team | Payments Squad | PCI-DSS scope |
 | recommendations | Team | ML Platform | — |
 
-## Platform Coordinate System
+## Platform Notation
 
 Every resource is addressed by `(Sector, Tier, Region, Tenant)`.
 
 ### Example Coordinates
-- `(ecommerce, live, eu01, payments)` — Payments team, European production
-- `(platform, sandbox, us01, *)` — all platform tooling in US sandbox
+- `("ecommerce", "live", "eu01", "payments")` — Payments team, European production
+- `("platform", "sandbox", "us01", "*")` — all platform tooling in US sandbox
 
 ### Resource Naming Convention
 [Convention derived from the coordinate, e.g., `{tenant}-{tier}` for accounts, `rg-{tenant}-{region}-{tier}` for resource groups]

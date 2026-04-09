@@ -43,6 +43,14 @@ Apply the landing zone definition from `landing-zone-design.md` to GCP. Ensure t
 
 This skill is **idempotent**.
 
+
+
+## Notation & Types Reference
+
+When writing configurations or documentation, you **MUST** strictly adhere to the structural notation and types defined in the book. Before proceeding, read the following reference files:
+- `references/notation.md`
+- `references/types.md`
+
 ## What to Gather First
 
 Before proceeding, ask the user (or infer from context):

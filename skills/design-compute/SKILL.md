@@ -22,6 +22,14 @@ Design
 
 Produce a **compute design document** — a cloud-agnostic specification of the Kubernetes cluster topology, node pool strategy, multi-tenancy model, and quota template definitions. This document is the input for `manage-k8s-namespaces` and guides the Terraform/Pulumi IaC modules used for cluster provisioning.
 
+
+
+## Notation & Types Reference
+
+When writing configurations or documentation, you **MUST** strictly adhere to the structural notation and types defined in the book. Before proceeding, read the following reference files:
+- `references/notation.md`
+- `references/types.md`
+
 ## What to Gather First
 
 Before proceeding, ask the user (or infer from context):
@@ -174,8 +182,8 @@ Produce a Markdown document named `compute-design.md`:
 
 | Cluster Name | Coordinate | Provider | Network Spoke | Multi-Tenancy Model |
 |-------------|-----------|----------|--------------|---------------------|
-| k8s-ecommerce-live-eu01 | (ecommerce, live, eu01) | AKS | vnet-ecommerce-live-eu01 | Pool (all tenants) |
-| k8s-payments-live-eu01 | (ecommerce, live, eu01, payments) | AKS | vnet-ecommerce-live-eu01 | Silo (PCI scope) |
+| k8s-ecommerce-live-eu01 | ("ecommerce", "live", "eu01) | AKS | vnet-ecommerce-live-eu01 | Pool (all tenants) |
+| k8s-payments-live-eu01 | (ecommerce", "live, eu01, payments") | AKS | vnet-ecommerce-live-eu01 | Silo (PCI scope) |
 
 ## Node Pools
 

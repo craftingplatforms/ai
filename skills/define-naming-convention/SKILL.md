@@ -2,7 +2,7 @@
 name: define-naming-convention
 description: >
   Define the resource naming pattern and mandatory tagging schema for the platform, derived
-  from the Platform Coordinate System. Produces a naming-convention.md document that all
+  from the Platform Notation. Produces a naming-convention.md document that all
   subsequent skills (landing zone, networking, compute, IaC modules) use as their authoritative
   source of truth for names and tags. Use after design-segmentation and before any
   provisioning skill.
@@ -21,6 +21,14 @@ Design
 ## Your Goal
 
 Produce a **naming convention document** — a single source of truth for how every resource in the platform is named and tagged. All downstream skills and IaC modules derive their naming from this document. A good convention makes the coordinate of any resource immediately readable from its name, without querying the cloud console.
+
+
+
+## Notation & Types Reference
+
+When writing configurations or documentation, you **MUST** strictly adhere to the structural notation and types defined in the book. Before proceeding, read the following reference files:
+- `references/notation.md`
+- `references/types.md`
 
 ## What to Gather First
 

@@ -2,7 +2,7 @@
 name: design-landing-zone
 description: >
   Design the cloud account/subscription/project and organizational hierarchy — the landing zone —
-  by mapping the Platform Coordinate System to cloud provider primitives. Produces a
+  by mapping the Platform Notation to cloud provider primitives. Produces a
   landing-zone-design.md document specifying which accounts/subscriptions/projects/OUs/folders
   exist per coordinate, their guardrails strategy, and the isolation level rationale.
   Use after design-segmentation, before manage-azure-landing-zone / manage-aws-landing-zone /
@@ -24,6 +24,14 @@ Design
 Produce a **landing zone design document** — a cloud-agnostic specification of the organizational hierarchy and guardrails that enforces the segmentation model. This document is the input for the cloud-specific provisioning skills (`manage-azure-landing-zone`, `manage-aws-landing-zone`, `manage-gcp-landing-zone`).
 
 The output must be concrete: every structural node named, its coordinate annotation stated, its guardrail requirements listed, and its isolation rationale documented.
+
+
+
+## Notation & Types Reference
+
+When writing configurations or documentation, you **MUST** strictly adhere to the structural notation and types defined in the book. Before proceeding, read the following reference files:
+- `references/notation.md`
+- `references/types.md`
 
 ## What to Gather First
 
@@ -184,8 +192,8 @@ Produce a Markdown document named `landing-zone-design.md`:
 
 | Service | Location | Coordinate | Depends On |
 |---------|----------|-----------|-----------|
-| Hub network | Account: network-hub | (platform, live, *) | Transit Gateway |
-| Log archive | Account: audit | (security, live) | All accounts |
+| Hub network | Account: network-hub | ("platform", "live", "*) | Transit Gateway |
+| Log archive | Account: audit | (security", "live") | All accounts |
 
 ## Guardrails Summary
 
