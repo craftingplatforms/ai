@@ -4,7 +4,16 @@ The Platform Notation uses specific functional types to describe resources, boun
 
 When using functional notation (e.g., `CloudPrimitive(Sector, Tier)`), always use positional inference for parameters (see `notation.md` for formatting rules).
 
-## 1. Authorization Types
+## 1. Basic Types
+
+These are the four dimensions that form the coordinate system.
+
+*   **`Sector(Name)`**: The internal vs. business context boundary.
+*   **`Tier(Name)`**: The criticality and data classification boundary.
+*   **`Region(Name)`**: The physical location boundary.
+*   **`Tenant(Name)`**: The ownership/team boundary.
+
+## 2. Authorization Types
 
 These types are used to define identity and access management.
 
@@ -16,7 +25,7 @@ These types are used to define identity and access management.
 *   **`Group(Tenant, Tier, Role)`**: The container that assigns members to a role in a specific context.
     *   Example: `Group("payments", "live", "contributor")`
 
-## 2. Abstract Types
+## 3. Abstract Types
 
 Generic infrastructure boundaries that could be implemented on any cloud. Use these to describe architectures before committing to a specific vendor.
 
@@ -27,7 +36,7 @@ Generic infrastructure boundaries that could be implemented on any cloud. Use th
 *   **`Database(Sector, Tier, Region, Tenant)`**: A database resource.
 *   **`VirtualMachine(Sector, Tier, Region, Tenant)`**: A virtual machine compute resource.
 
-## 3. Specific Types
+## 4. Specific Types
 
 Concrete cloud provider resources that implement the abstract types.
 

@@ -9,7 +9,7 @@ description: >
 license: Apache-2.0
 metadata:
   version: "0.1.0"
-  chapter: "4"
+  chapter: "5"
 ---
 
 # Manage Kubernetes IAM
@@ -247,7 +247,7 @@ Produce a Markdown report named `k8s-iam-report.md`:
 
 ## Related Chapter(s)
 
-This skill is grounded in **Chapter 4: Identity and Access Management** of *Crafting Platforms*.
+This skill is grounded in **Chapter 5: Identity and Access Management** of *Crafting Platforms*.
 
 - Read the book: [leanpub.com/crafting-platforms](https://leanpub.com/crafting-platforms)
 - Project home: [craftingplatforms.com](https://www.craftingplatforms.com)

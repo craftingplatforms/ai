@@ -9,7 +9,7 @@ description: >
 license: Apache-2.0
 metadata:
   version: "0.1.0"
-  chapter: "3"
+  chapter: "4"
 ---
 
 # Design Segmentation
@@ -273,7 +273,7 @@ Every resource is addressed by `(Sector, Tier, Region, Tenant)`.
 
 ## Related Chapter(s)
 
-This skill is grounded in **Chapter 3: Segmentation** of *Crafting Platforms*.
+This skill is grounded in **Chapter 4: Segmentation** of *Crafting Platforms*.
 
 - Read the book: [leanpub.com/crafting-platforms](https://leanpub.com/crafting-platforms)
 - Project home: [craftingplatforms.com](https://www.craftingplatforms.com)

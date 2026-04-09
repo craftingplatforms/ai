@@ -33,12 +33,14 @@ The book teaches **humans** the principles and patterns for building platforms. 
 | 0 | Preface |
 | 1 | Introduction |
 | 2 | Internal Developer Platform |
-| 3 | Segmentation |
-| 4 | Infrastructure |
-| 5 | CI/CD |
-| 6 | Observability |
-| 7 | Security and Compliance |
-| 8 | Developer Experience |
+| 3 | Platform Notation |
+| 4 | Segmentation |
+| 5 | Identity and Access Management |
+| 6 | Infrastructure |
+| 7 | CI/CD |
+| 8 | Observability |
+| 9 | Security and Compliance |
+| 10 | Developer Experience |
 
 Artifacts tied to book chapters will be added as the book is completed. Community contributions grounded in platform engineering best practices are also welcome.
 
@@ -51,24 +53,24 @@ Artifacts tied to book chapters will be added as the book is completed. Communit
 | Skill | Chapter | Status |
 |-------|---------|--------|
 | [`define-platform-vision`](skills/define-platform-vision/) | Chapter 2 | Published |
-| [`design-segmentation`](skills/design-segmentation/) | Chapter 3 | Published |
-| [`define-core-iam`](skills/define-core-iam/) | Chapter 4 | Published |
-| [`define-tenant-iam`](skills/define-tenant-iam/) | Chapter 4 | Published |
-| [`manage-azure-iam`](skills/manage-azure-iam/) | Chapter 4 | Published |
-| [`manage-aws-iam`](skills/manage-aws-iam/) | Chapter 4 | Published |
-| [`manage-gcp-iam`](skills/manage-gcp-iam/) | Chapter 4 | Published |
-| [`manage-k8s-iam`](skills/manage-k8s-iam/) | Chapter 4 | Published |
-| [`design-landing-zone`](skills/design-landing-zone/) | Chapter 5 | Published |
-| [`define-naming-convention`](skills/define-naming-convention/) | Chapter 5 | Published |
-| [`design-networking`](skills/design-networking/) | Chapter 5 | Published |
-| [`design-compute`](skills/design-compute/) | Chapter 5 | Published |
-| [`manage-azure-landing-zone`](skills/manage-azure-landing-zone/) | Chapter 5 | Published |
-| [`manage-aws-landing-zone`](skills/manage-aws-landing-zone/) | Chapter 5 | Published |
-| [`manage-gcp-landing-zone`](skills/manage-gcp-landing-zone/) | Chapter 5 | Published |
-| [`manage-azure-networking`](skills/manage-azure-networking/) | Chapter 5 | Published |
-| [`manage-aws-networking`](skills/manage-aws-networking/) | Chapter 5 | Published |
-| [`manage-gcp-networking`](skills/manage-gcp-networking/) | Chapter 5 | Published |
-| [`manage-k8s-namespaces`](skills/manage-k8s-namespaces/) | Chapter 5 | Published |
+| [`design-segmentation`](skills/design-segmentation/) | Chapter 4 | Published |
+| [`define-core-iam`](skills/define-core-iam/) | Chapter 5 | Published |
+| [`define-tenant-iam`](skills/define-tenant-iam/) | Chapter 5 | Published |
+| [`manage-azure-iam`](skills/manage-azure-iam/) | Chapter 5 | Published |
+| [`manage-aws-iam`](skills/manage-aws-iam/) | Chapter 5 | Published |
+| [`manage-gcp-iam`](skills/manage-gcp-iam/) | Chapter 5 | Published |
+| [`manage-k8s-iam`](skills/manage-k8s-iam/) | Chapter 5 | Published |
+| [`design-landing-zone`](skills/design-landing-zone/) | Chapter 6 | Published |
+| [`define-naming-convention`](skills/define-naming-convention/) | Chapter 6 | Published |
+| [`design-networking`](skills/design-networking/) | Chapter 6 | Published |
+| [`design-compute`](skills/design-compute/) | Chapter 6 | Published |
+| [`manage-azure-landing-zone`](skills/manage-azure-landing-zone/) | Chapter 6 | Published |
+| [`manage-aws-landing-zone`](skills/manage-aws-landing-zone/) | Chapter 6 | Published |
+| [`manage-gcp-landing-zone`](skills/manage-gcp-landing-zone/) | Chapter 6 | Published |
+| [`manage-azure-networking`](skills/manage-azure-networking/) | Chapter 6 | Published |
+| [`manage-aws-networking`](skills/manage-aws-networking/) | Chapter 6 | Published |
+| [`manage-gcp-networking`](skills/manage-gcp-networking/) | Chapter 6 | Published |
+| [`manage-k8s-namespaces`](skills/manage-k8s-namespaces/) | Chapter 6 | Published |
 
 Subscribe to the [newsletter](https://newsletter.craftingplatforms.com) for announcements when new artifacts are released.
 
@@ -83,6 +85,7 @@ ai/
 ├── agents/          # Specialized agent definitions
 ├── hooks/           # Event-driven automation scripts
 ├── mcp/             # Model Context Protocol servers
+├── references/      # Best practices and notation
 ├── .claude/         # Claude Code operational configs (internal)
 ├── CONTRIBUTING.md  # How to contribute
 └── README.md        # This file

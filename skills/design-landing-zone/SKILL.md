@@ -10,7 +10,7 @@ description: >
 license: Apache-2.0
 metadata:
   version: "0.1.0"
-  chapter: "5"
+  chapter: "6"
 ---
 
 # Design Landing Zone
@@ -223,7 +223,7 @@ Produce a Markdown document named `landing-zone-design.md`:
 
 ## Related Chapter(s)
 
-This skill is grounded in **Chapter 5: Infrastructure** of *Crafting Platforms*.
+This skill is grounded in **Chapter 6: Infrastructure** of *Crafting Platforms*.
 
 - Read the book: [leanpub.com/crafting-platforms](https://leanpub.com/crafting-platforms)
 - Project home: [craftingplatforms.com](https://www.craftingplatforms.com)
