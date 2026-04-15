@@ -1,0 +1,12 @@
+{
+  "name": "azure",
+  "version": "0.1.0",
+  "description": "Azure platform engineering — IAM, landing zones, and networking management",
+  "author": {
+    "name": "Ezequiel Foncubierta"
+  },
+  "homepage": "https://github.com/efoncubierta/craftingplatforms-ai",
+  "repository": "https://github.com/efoncubierta/craftingplatforms-ai",
+  "license": "Apache-2.0",
+  "keywords": ["azure", "platform-engineering", "iam", "landing-zone", "networking"]
+}

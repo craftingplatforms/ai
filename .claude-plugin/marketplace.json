@@ -1,0 +1,57 @@
+{
+  "name": "crafting-platforms",
+  "owner": {
+    "name": "Ezequiel Foncubierta"
+  },
+  "metadata": {
+    "description": "AI skills for platform engineering — grounded in the Crafting Platforms book",
+    "pluginRoot": "./plugins"
+  },
+  "plugins": [
+    {
+      "name": "platform-design",
+      "source": "./plugins/platform-design",
+      "description": "Platform strategy, segmentation, IAM design, and landing zone design skills",
+      "version": "0.1.0",
+      "license": "Apache-2.0",
+      "category": "platform-engineering",
+      "keywords": ["platform-engineering", "design", "iam", "segmentation", "landing-zone"]
+    },
+    {
+      "name": "aws",
+      "source": "./plugins/aws",
+      "description": "AWS platform engineering — IAM, landing zones, and networking management",
+      "version": "0.1.0",
+      "license": "Apache-2.0",
+      "category": "cloud-infrastructure",
+      "keywords": ["aws", "iam", "landing-zone", "networking"]
+    },
+    {
+      "name": "azure",
+      "source": "./plugins/azure",
+      "description": "Azure platform engineering — IAM, landing zones, and networking management",
+      "version": "0.1.0",
+      "license": "Apache-2.0",
+      "category": "cloud-infrastructure",
+      "keywords": ["azure", "iam", "landing-zone", "networking"]
+    },
+    {
+      "name": "gcp",
+      "source": "./plugins/gcp",
+      "description": "GCP platform engineering — IAM, landing zones, and networking management",
+      "version": "0.1.0",
+      "license": "Apache-2.0",
+      "category": "cloud-infrastructure",
+      "keywords": ["gcp", "google-cloud", "iam", "landing-zone", "networking"]
+    },
+    {
+      "name": "kubernetes",
+      "source": "./plugins/kubernetes",
+      "description": "Kubernetes platform engineering — IAM and namespace management",
+      "version": "0.1.0",
+      "license": "Apache-2.0",
+      "category": "cloud-infrastructure",
+      "keywords": ["kubernetes", "k8s", "iam", "namespaces"]
+    }
+  ]
+}

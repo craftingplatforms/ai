@@ -1,0 +1,12 @@
+{
+  "name": "kubernetes",
+  "version": "0.1.0",
+  "description": "Kubernetes platform engineering — IAM and namespace management",
+  "author": {
+    "name": "Ezequiel Foncubierta"
+  },
+  "homepage": "https://github.com/efoncubierta/craftingplatforms-ai",
+  "repository": "https://github.com/efoncubierta/craftingplatforms-ai",
+  "license": "Apache-2.0",
+  "keywords": ["kubernetes", "k8s", "platform-engineering", "iam", "namespaces"]
+}

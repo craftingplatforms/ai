@@ -1,0 +1,12 @@
+{
+  "name": "platform-design",
+  "version": "0.1.0",
+  "description": "Platform strategy, segmentation, IAM design, and landing zone design skills",
+  "author": {
+    "name": "Ezequiel Foncubierta"
+  },
+  "homepage": "https://github.com/efoncubierta/craftingplatforms-ai",
+  "repository": "https://github.com/efoncubierta/craftingplatforms-ai",
+  "license": "Apache-2.0",
+  "keywords": ["platform-engineering", "design", "iam", "segmentation", "landing-zone"]
+}
