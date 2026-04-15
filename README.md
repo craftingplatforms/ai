@@ -48,29 +48,61 @@ Artifacts tied to book chapters will be added as the book is completed. Communit
 
 ## Artifact Inventory
 
-### Skills
+Skills are distributed as **Claude Code plugins**, grouped by cloud provider and domain.
+
+### Plugin: `platform-design`
+
+Platform strategy, segmentation, IAM design, and landing zone design.
 
 | Skill | Chapter | Status |
 |-------|---------|--------|
-| [`define-platform-vision`](skills/define-platform-vision/) | Chapter 2 | Published |
-| [`design-segmentation`](skills/design-segmentation/) | Chapter 4 | Published |
-| [`define-core-iam`](skills/define-core-iam/) | Chapter 5 | Published |
-| [`define-tenant-iam`](skills/define-tenant-iam/) | Chapter 5 | Published |
-| [`manage-azure-iam`](skills/manage-azure-iam/) | Chapter 5 | Published |
-| [`manage-aws-iam`](skills/manage-aws-iam/) | Chapter 5 | Published |
-| [`manage-gcp-iam`](skills/manage-gcp-iam/) | Chapter 5 | Published |
-| [`manage-k8s-iam`](skills/manage-k8s-iam/) | Chapter 5 | Published |
-| [`design-landing-zone`](skills/design-landing-zone/) | Chapter 6 | Published |
-| [`define-naming-convention`](skills/define-naming-convention/) | Chapter 6 | Published |
-| [`design-networking`](skills/design-networking/) | Chapter 6 | Published |
-| [`design-compute`](skills/design-compute/) | Chapter 6 | Published |
-| [`manage-azure-landing-zone`](skills/manage-azure-landing-zone/) | Chapter 6 | Published |
-| [`manage-aws-landing-zone`](skills/manage-aws-landing-zone/) | Chapter 6 | Published |
-| [`manage-gcp-landing-zone`](skills/manage-gcp-landing-zone/) | Chapter 6 | Published |
-| [`manage-azure-networking`](skills/manage-azure-networking/) | Chapter 6 | Published |
-| [`manage-aws-networking`](skills/manage-aws-networking/) | Chapter 6 | Published |
-| [`manage-gcp-networking`](skills/manage-gcp-networking/) | Chapter 6 | Published |
-| [`manage-k8s-namespaces`](skills/manage-k8s-namespaces/) | Chapter 6 | Published |
+| [`define-platform-vision`](plugins/platform-design/skills/define-platform-vision/) | Chapter 2 | Published |
+| [`design-segmentation`](plugins/platform-design/skills/design-segmentation/) | Chapter 4 | Published |
+| [`define-core-iam`](plugins/platform-design/skills/define-core-iam/) | Chapter 5 | Published |
+| [`define-tenant-iam`](plugins/platform-design/skills/define-tenant-iam/) | Chapter 5 | Published |
+| [`design-landing-zone`](plugins/platform-design/skills/design-landing-zone/) | Chapter 6 | Published |
+| [`define-naming-convention`](plugins/platform-design/skills/define-naming-convention/) | Chapter 6 | Published |
+| [`design-networking`](plugins/platform-design/skills/design-networking/) | Chapter 6 | Published |
+| [`design-compute`](plugins/platform-design/skills/design-compute/) | Chapter 6 | Published |
+
+### Plugin: `aws`
+
+AWS platform engineering — IAM, landing zones, and networking management.
+
+| Skill | Chapter | Status |
+|-------|---------|--------|
+| [`manage-aws-iam`](plugins/aws/skills/manage-aws-iam/) | Chapter 5 | Published |
+| [`manage-aws-landing-zone`](plugins/aws/skills/manage-aws-landing-zone/) | Chapter 6 | Published |
+| [`manage-aws-networking`](plugins/aws/skills/manage-aws-networking/) | Chapter 6 | Published |
+
+### Plugin: `azure`
+
+Azure platform engineering — IAM, landing zones, and networking management.
+
+| Skill | Chapter | Status |
+|-------|---------|--------|
+| [`manage-azure-iam`](plugins/azure/skills/manage-azure-iam/) | Chapter 5 | Published |
+| [`manage-azure-landing-zone`](plugins/azure/skills/manage-azure-landing-zone/) | Chapter 6 | Published |
+| [`manage-azure-networking`](plugins/azure/skills/manage-azure-networking/) | Chapter 6 | Published |
+
+### Plugin: `gcp`
+
+GCP platform engineering — IAM, landing zones, and networking management.
+
+| Skill | Chapter | Status |
+|-------|---------|--------|
+| [`manage-gcp-iam`](plugins/gcp/skills/manage-gcp-iam/) | Chapter 5 | Published |
+| [`manage-gcp-landing-zone`](plugins/gcp/skills/manage-gcp-landing-zone/) | Chapter 6 | Published |
+| [`manage-gcp-networking`](plugins/gcp/skills/manage-gcp-networking/) | Chapter 6 | Published |
+
+### Plugin: `kubernetes`
+
+Kubernetes platform engineering — IAM and namespace management.
+
+| Skill | Chapter | Status |
+|-------|---------|--------|
+| [`manage-k8s-iam`](plugins/kubernetes/skills/manage-k8s-iam/) | Chapter 5 | Published |
+| [`manage-k8s-namespaces`](plugins/kubernetes/skills/manage-k8s-namespaces/) | Chapter 6 | Published |
 
 Subscribe to the [newsletter](https://newsletter.craftingplatforms.com) for announcements when new artifacts are released.
 
@@ -80,12 +112,14 @@ Subscribe to the [newsletter](https://newsletter.craftingplatforms.com) for anno
 
 ```
 ai/
-├── skills/          # Reusable AI skills (one per task)
-├── commands/        # Chat/slash commands (workflows)
-├── agents/          # Specialized agent definitions
-├── hooks/           # Event-driven automation scripts
-├── mcp/             # Model Context Protocol servers
-├── references/      # Best practices and notation
+├── .claude-plugin/  # Marketplace catalog (marketplace.json)
+├── plugins/         # Plugins grouped by cloud provider / domain
+│   ├── aws/         #   AWS skills + plugin manifest
+│   ├── azure/       #   Azure skills + plugin manifest
+│   ├── gcp/         #   GCP skills + plugin manifest
+│   ├── kubernetes/  #   Kubernetes skills + plugin manifest
+│   └── platform-design/ # Platform design skills + plugin manifest
+├── references/      # Shared notation and types (symlinked into each plugin)
 ├── .claude/         # Claude Code operational configs (internal)
 ├── CONTRIBUTING.md  # How to contribute
 └── README.md        # This file
@@ -93,26 +127,27 @@ ai/
 
 ---
 
-## Install Artifacts
+## Install Plugins
 
-### Claude Code
+This repository is a [Claude Code Plugin Marketplace](https://code.claude.com/docs/en/plugin-marketplaces).
 
-**Option 1: Using [skills.sh](https://skills.sh) (recommended)**
+### Add the marketplace
 
-```bash
-npx skills add https://github.com/craftingplatforms/ai
+```
+/plugin marketplace add efoncubierta/craftingplatforms-ai
 ```
 
-**Option 2: Manual copy**
+### Install individual plugins
 
-```bash
-# Global (all projects)
-cp skills/*.md ~/.claude/skills/
-
-# Per-project
-mkdir -p your-project/.claude/skills/
-cp skills/*.md your-project/.claude/skills/
 ```
+/plugin install platform-design@crafting-platforms
+/plugin install aws@crafting-platforms
+/plugin install azure@crafting-platforms
+/plugin install gcp@crafting-platforms
+/plugin install kubernetes@crafting-platforms
+```
+
+Once installed, skills are available as slash commands — for example `/design-segmentation` or `/manage-aws-iam`.
 
 Support for additional AI platforms (GitHub Copilot, Cursor, etc.) is planned for future releases.
 
@@ -128,13 +163,10 @@ Contributions are welcome — new artifacts, improvements to existing ones, and 
 
 ### Artifact types
 
-| Type | Directory | Details |
-|------|-----------|---------|
-| Skill | [`skills/`](skills/README.md) | Reusable task guidance — design, implementation, or hybrid |
-| Command | [`commands/`](commands/README.md) | Named slash-command workflows |
-| Agent | [`agents/`](agents/README.md) | Specialized sub-agents with narrow scope |
-| Hook | [`hooks/`](hooks/README.md) | Event-driven automation scripts |
-| MCP server | [`mcp/`](mcp/README.md) | Domain-specific tool extensions |
+| Type | Location | Details |
+|------|----------|---------|
+| Plugin | [`plugins/`](plugins/) | Groups related skills; each has a `plugin.json` manifest |
+| Skill | `plugins/<plugin>/skills/` | Reusable task guidance — design, implementation, or hybrid |
 
 ---
 

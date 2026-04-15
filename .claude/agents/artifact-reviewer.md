@@ -22,10 +22,11 @@ You are a reviewer for the `craftingplatforms/ai` repository. Your job is to eva
 ## Review Criteria
 
 ### 1. Structure (skills only)
-- [ ] Skill is a directory (`skills/skill-name/`), not a single file
+- [ ] Skill is a directory (`plugins/<plugin>/skills/<name>/`), not a single file
 - [ ] Directory name matches `name` field in `SKILL.md`
-- [ ] `SKILL.md` body is under 500 lines; detail moved to `references/`
+- [ ] `SKILL.md` body is under 500 lines; detail moved to `references/` via the plugin's symlink
 - [ ] Implementation skills have working scripts in `scripts/`, not just prose
+- [ ] For new plugins: `.claude-plugin/plugin.json` exists, is valid JSON, and `name` matches the directory
 
 ### 2. Frontmatter
 - [ ] `name` is lowercase, hyphens only, max 64 chars

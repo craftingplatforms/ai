@@ -17,7 +17,9 @@ use the brand palette.
 
 ---
 
-Vendor-agnostic AI artifacts (skills, commands, agents, hooks, MCP servers) for platform engineering. Closely related to the book *Crafting Platforms* by Ezequiel Foncubierta, but the repository can grow beyond it — artifacts grounded in platform engineering or AI best practices are equally welcome.
+Vendor-agnostic AI artifacts (skills, commands, agents, hooks, MCP servers) for platform engineering. Distributed as a [Claude Code Plugin Marketplace](https://code.claude.com/docs/en/plugin-marketplaces). Closely related to the book *Crafting Platforms* by Ezequiel Foncubierta, but the repository can grow beyond it — artifacts grounded in platform engineering or AI best practices are equally welcome.
+
+**Structure:** Skills live under `plugins/<plugin>/skills/<name>/SKILL.md`. Each plugin has a `.claude-plugin/plugin.json` manifest. The marketplace catalog is at `.claude-plugin/marketplace.json`. Shared notation and types in `references/` are symlinked into each plugin as `plugins/<plugin>/references`.
 
 **Key rules:**
 - Artifacts must be practical and specific — no speculative or toy examples
@@ -33,11 +35,14 @@ Use the commands and skills in `.claude/` to maintain this repo:
 
 | | |
 |---|---|
-| `/new-skill` | Scaffold a new skill, update README inventory, prompt book appendix update |
+| `/new-plugin` | Scaffold a new plugin, create plugin.json and references symlink, update marketplace.json and README |
+| `/new-skill` | Scaffold a new skill inside an existing plugin, update README inventory |
 | `/new-agent` | Scaffold a new agent |
 | `/new-command` | Scaffold a new command |
 | `/sync-inventory` | Verify README inventory matches actual files; flag book cross-reference gaps |
-| `artifact-reviewer` agent | Review any artifact for quality before publishing |
+| `artifact-reviewer` agent | Review any artifact (skill, plugin.json, command, agent) for quality before publishing |
+| `write-plugin` skill | Template and checklist for writing a well-formed plugin manifest |
+| `validate-plugin` skill | Validate a plugin's structure and manifest against the spec |
 | `write-skill` skill | Template and checklist for writing a well-formed skill |
 | `write-agent` skill | Template and checklist for writing a well-formed agent |
 | `write-command` skill | Template and checklist for writing a well-formed command |

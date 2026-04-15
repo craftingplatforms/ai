@@ -5,6 +5,7 @@ Create a new skill for this repository following the Agent Skills format.
 1. **Ask for the skill details** if not already provided:
    - What platform engineering task should this skill accomplish?
    - What type? (Design / Implementation / Hybrid / Orchestration)
+   - Which plugin should this skill belong to? (existing: `aws`, `azure`, `gcp`, `kubernetes`, `platform-design` — or create a new one with `/new-plugin`)
    - Does it relate to a book chapter? If so, which one(s)?
    - Does it have system requirements? (tools, network access, cloud credentials)
    - What should it be named? (suggest a kebab-case action name)
@@ -13,16 +14,16 @@ Create a new skill for this repository following the Agent Skills format.
 
 3. **Create the skill directory and files:**
    ```
-   skills/<name>/
+   plugins/<plugin>/skills/<name>/
    ├── SKILL.md          # always
    ├── scripts/          # if Implementation or Hybrid
-   ├── references/       # if content exceeds 500 lines in SKILL.md
    └── assets/           # if templates or data files are needed
    ```
+   Note: do not create a `references/` subdirectory inside the skill — use `references/notation.md` and `references/types.md` from the plugin's `references` symlink instead.
 
-4. **Update `README.md`** — add a row to the Artifact Inventory:
+4. **Update `README.md`** — add a row to the Artifact Inventory under the correct plugin section:
    ```
-   | [`<name>`](skills/<name>/) | <Chapter N or "—"> | Published |
+   | [`<name>`](plugins/<plugin>/skills/<name>/) | <Chapter N or "—"> | Published |
    ```
 
 5. **If the skill relates to a book chapter**, remind the user:
@@ -30,5 +31,5 @@ Create a new skill for this repository following the Agent Skills format.
 
 6. **Suggest committing:**
    ```
-   Add <name> skill
+   Add <name> skill to <plugin> plugin
    ```

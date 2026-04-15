@@ -19,6 +19,17 @@ Every resource in the platform is assigned a specific tuple called its **coordin
 *   **Lowercase Values**: All dimension values MUST be lowercase strings (e.g., `"ecommerce"`, NOT `"ECommerce"` or `"Ecommerce"`).
 *   **Positional Tuples**: Use clean coordinates like `("ecommerce", "live", "eu01", "payments")` for fully resolved paths. Use an underscore `_` for ignored dimensions, e.g., `("platform", "live", _, _)`.
 
+## Associations
+
+To express relationships between resources, use the following simple operators:
+
+1.  **Hierarchy (`in`)**: Membership or containment.
+    *   Example: `Identity in Group("payments", "live", "reader")`
+2.  **Structural Mapping (`=>`)**: Implementation or realization (abstract to concrete).
+    *   Example: `Space("payments", "live", ...) => AzureResourceGroup(...)`
+3.  **Logical Connectivity (`<->`)**: Bidirectional link or communication path.
+    *   Example: `Spoke("ecommerce", "live", "eu01") <-> Hub("platform", "live", "eu01")`
+
 ## Formatting and Textual Usage
 
 When referencing these concepts in text or markdown, you must follow these strict formatting rules:

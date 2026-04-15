@@ -24,16 +24,20 @@ Declare the type before writing — it determines what the skill produces:
 
 ## Directory Structure
 
+Skills live inside a plugin directory:
+
 ```
-skills/
-└── skill-name/
-    ├── SKILL.md        # Required: metadata + instructions (keep under 500 lines)
-    ├── scripts/        # Optional: executable scripts
-    ├── references/     # Optional: detailed docs loaded on demand
-    └── assets/         # Optional: templates, schemas, data files
+plugins/<plugin>/
+└── skills/
+    └── skill-name/
+        ├── SKILL.md        # Required: metadata + instructions (keep under 500 lines)
+        ├── scripts/        # Optional: executable scripts
+        └── assets/         # Optional: templates, schemas, data files
 ```
 
 The directory name must exactly match the `name` field in `SKILL.md`.
+
+**Shared references:** Each plugin has a `references` symlink (`plugins/<plugin>/references → ../../references`). Skills reference shared notation and types as `references/notation.md` and `references/types.md` — these resolve through the plugin's symlink. Do not create a `references/` subdirectory inside the skill itself.
 
 ## SKILL.md Template
 
